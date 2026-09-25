@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="吴文丽｜AI 探索者。把生活里的真实问题变成小项目，在行动、使用与复盘中寻找自己的方向。" />
+  <meta name="theme-color" content="#f4f0e6" />
+  <title>吴文丽 · Sylvie Wu · AI Explorer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="stage2.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+
+  <div class="intro" id="intro" aria-label="开场生长动画">
+    <button class="intro-skip" id="skipIntro" type="button">跳过动画</button>
+
+    <div class="growth-stage" aria-hidden="true">
+      <svg class="growth-svg" viewBox="0 0 640 720" role="img">
+        <defs>
+          <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+            <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#244d35" flood-opacity=".10"/>
+          </filter>
+        </defs>
+
+        <!-- 1. 地面与种子 -->
+        <path class="ground-mound" d="M120 604 C190 583 252 595 320 589 C397 582 462 589 520 607 C453 623 193 625 120 604Z"/>
+        <ellipse class="intro-seed" cx="320" cy="608" rx="11" ry="17" transform="rotate(20 320 608)"/>
+
+        <path class="intro-root root-left" d="M320 611 C309 630 299 644 286 655"/>
+        <path class="intro-root root-right" d="M321 611 C333 629 344 642 359 652"/>
+
+        <!-- 2. 破土的小芽 -->
+        <path class="sprout-stem" d="M320 598 C319 575 320 554 320 530"/>
+        <g class="sprout-leaf sprout-leaf-left" transform="translate(307 545) rotate(-28)">
+          <ellipse rx="17" ry="8"/>
+        </g>
+        <g class="sprout-leaf sprout-leaf-right" transform="translate(334 538) rotate(26)">
+          <ellipse rx="17" ry="8"/>
+        </g>
+
+        <!-- 3. 主干与抽枝 -->
+        <g class="mature-tree" filter="url(#softShadow)">
+          <path class="tree-trunk" d="M320 596 C312 542 327 500 318 452 C308 399 325 349 319 297 C314 247 320 202 323 158"/>
+          <path class="tree-branch branch-lower-left" d="M319 455 C275 435 242 404 213 365"/>
+          <path class="tree-branch branch-lower-right" d="M320 421 C366 400 405 369 432 331"/>
+          <path class="tree-branch branch-mid-left" d="M319 371 C281 346 252 315 236 281"/>
+          <path class="tree-branch branch-mid-right" d="M320 335 C359 315 389 285 406 250"/>
+          <path class="tree-branch branch-upper-left" d="M321 278 C294 259 276 234 267 205"/>
+          <path class="tree-branch branch-upper-right" d="M322 244 C350 226 367 201 377 174"/>
+
+          <!-- 叶子：外层负责定位，内层只负责长出来，避免 transform 覆盖定位 -->
+          <g class="leaf-anchor" transform="translate(210 360) rotate(-24)"><ellipse class="tree-leaf l1" rx="22" ry="11"/></g>
+          <g class="leaf-anchor" transform="translate(241 397) rotate(18)"><ellipse class="tree-leaf l2" rx="21" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(271 425) rotate(-10)"><ellipse class="tree-leaf l3" rx="20" ry="10"/></g>
+
+          <g class="leaf-anchor" transform="translate(434 327) rotate(-22)"><ellipse class="tree-leaf l4" rx="22" ry="11"/></g>
+          <g class="leaf-anchor" transform="translate(398 365) rotate(24)"><ellipse class="tree-leaf l5" rx="20" ry="10"/></g>
+
+          <g class="leaf-anchor" transform="translate(234 278) rotate(18)"><ellipse class="tree-leaf l6" rx="21" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(266 318) rotate(-25)"><ellipse class="tree-leaf l7" rx="20" ry="10"/></g>
+
+          <g class="leaf-anchor" transform="translate(409 247) rotate(-22)"><ellipse class="tree-leaf l8" rx="21" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(380 286) rotate(20)"><ellipse class="tree-leaf l9" rx="20" ry="10"/></g>
+
+          <g class="leaf-anchor" transform="translate(266 202) rotate(21)"><ellipse class="tree-leaf l10" rx="20" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(292 239) rotate(-18)"><ellipse class="tree-leaf l11" rx="19" ry="9"/></g>
+
+          <g class="leaf-anchor" transform="translate(378 171) rotate(-20)"><ellipse class="tree-leaf l12" rx="20" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(353 209) rotate(23)"><ellipse class="tree-leaf l13" rx="19" ry="9"/></g>
+
+          <!-- 4. 花：先开，再淡去 -->
+          <g class="blossom-anchor" transform="translate(229 343)">
+            <g class="blossom bl1">
+              <circle cx="0" cy="-8" r="6"/><circle cx="8" cy="0" r="6"/><circle cx="0" cy="8" r="6"/><circle cx="-8" cy="0" r="6"/><circle class="blossom-center" r="3.5"/>
+            </g>
+          </g>
+          <g class="blossom-anchor" transform="translate(420 313)">
+            <g class="blossom bl2">
+              <circle cx="0" cy="-8" r="6"/><circle cx="8" cy="0" r="6"/><circle cx="0" cy="8" r="6"/><circle cx="-8" cy="0" r="6"/><circle class="blossom-center" r="3.5"/>
+            </g>
+          </g>
+          <g class="blossom-anchor" transform="translate(254 262)">
+            <g class="blossom bl3">
+              <circle cx="0" cy="-8" r="6"/><circle cx="8" cy="0" r="6"/><circle cx="0" cy="8" r="6"/><circle cx="-8" cy="0" r="6"/><circle class="blossom-center" r="3.5"/>
+            </g>
+          </g>
+          <g class="blossom-anchor" transform="translate(395 229)">
+            <g class="blossom bl4">
+              <circle cx="0" cy="-8" r="6"/><circle cx="8" cy="0" r="6"/><circle cx="0" cy="8" r="6"/><circle cx="-8" cy="0" r="6"/><circle class="blossom-center" r="3.5"/>
+            </g>
+          </g>
+
+          <!-- 5. 果实：只有树长好、花开过以后才出现 -->
+          <g class="fruit-anchor" transform="translate(230 344)">
+            <g class="tree-fruit tf1"><circle r="13"/><path class="fruit-stem" d="M1 -12 C3 -20 8 -23 13 -20"/><ellipse class="fruit-leaf" cx="12" cy="-18" rx="6" ry="3.5" transform="rotate(-20 12 -18)"/></g>
+          </g>
+          <g class="fruit-anchor" transform="translate(421 313)">
+            <g class="tree-fruit tf2"><circle r="13"/><path class="fruit-stem" d="M1 -12 C3 -20 8 -23 13 -20"/><ellipse class="fruit-leaf" cx="12" cy="-18" rx="6" ry="3.5" transform="rotate(-20 12 -18)"/></g>
+          </g>
+          <g class="fruit-anchor falling-fruit-anchor" transform="translate(396 230)">
+            <g class="tree-fruit falling-fruit">
+              <circle r="14"/><path class="fruit-stem" d="M1 -13 C3 -21 8 -24 13 -21"/><ellipse class="fruit-leaf" cx="12" cy="-19" rx="6" ry="3.5" transform="rotate(-20 12 -19)"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- 果实触地点的小涟漪，只在最后瞬间出现 -->
+        <ellipse class="impact-ripple" cx="326" cy="612" rx="15" ry="4"/>
+      </svg>
+    </div>
+
+    <!-- 6. 果实触地后，抽象有机色块从下向上揭开主页 -->
+    <div class="organic-transition" aria-hidden="true">
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="none">
+        <path d="M0 170
+                 C120 92 222 204 351 131
+                 C473 61 581 189 706 117
+                 C831 46 942 194 1071 120
+                 C1197 50 1312 170 1440 103
+                 L1440 900 L0 900 Z"/>
+      </svg>
+    </div>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <a class="brand" href="#top" aria-label="返回顶部">
+      <span class="brand-dot"></span>
+      <span>吴文丽 / SYLVIE WU</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#projects">作品</a>
+      <a href="#path">路径</a>
+      <a href="#more">探索</a>
+      <a href="#contact">联系</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="section personal-hero" id="top" aria-labelledby="heroTitle">
+      <div class="hero-identity"><span>吴文丽 <i>/</i> Sylvie Wu</span><span>AI 探索者</span></div>
+      <h1 id="heroTitle"><span>生命是一棵</span><span class="hero-growing">长满可能的树<span class="hero-period">。</span></span></h1>
+      <div class="hero-bottom">
+        <p class="hero-introduction">我正在学习 Python，也借助 AI 把生活里的想法做成小项目。从化学与教育出发，我开始主动寻找愿意长期投入的方向。</p>
+        <div class="hero-wayfinding"><a class="editorial-button" href="#projects">看我的作品 <span aria-hidden="true">↗</span></a><a class="editorial-link" href="#path">我的来路 <span aria-hidden="true">↓</span></a></div>
+      </div>
+      <p class="hero-education">华中师范大学 · 学科化学硕士在读<span>正在学习 AI / Python，尝试产品实践</span></p>
+    </section>
+
+    <section class="section projects" id="projects">
+      <article class="planet-feature" aria-labelledby="planetTitle">
+        <div class="planet-heading">
+          <div class="planet-overline"><span>FEATURED PROJECT</span><span class="planet-status">交互原型 · 试用迭代中</span></div>
+          <h2 id="planetTitle">灵感星球</h2>
+          <p class="planet-subtitle">接住一闪而过的想法。</p>
+          <p class="planet-motivation">我经常突然冒出一些小 idea，可如果没有马上记录，它们很快就消失。于是我开始做「灵感星球」：先留下一个念头，再一点点补充，让它长出轮廓。</p>
+        </div>
+        <figure class="planet-media" id="featuredVideo">
+          <video controls playsinline preload="metadata" poster="assets/inspiration-poster.jpg" aria-label="灵感星球移动端交互原型演示" aria-describedby="demoCaption">
+            <source src="assets/inspiration-planet.mp4" type="video/mp4" />
+            你的浏览器暂不支持视频播放，请使用下方链接打开视频。
+          </video>
+          <figcaption id="demoCaption"><span class="demo-caption-heading">移动端交互原型 <span>32 秒演示</span></span><span>片中整理环节为本地模拟。</span></figcaption>
+          <a class="video-backup editorial-link" href="assets/inspiration-planet.mp4" target="_blank" rel="noreferrer">单独打开视频 <span aria-hidden="true">↗</span></a>
+        </figure>
+        <div class="planet-details">
+          <div class="planet-actions"><button class="editorial-button" type="button" data-scroll-video>播放演示 <span aria-hidden="true">↗</span></button><a class="editorial-link" href="https://inspiration-planet-d9cyp7bb2adaf-1380653399.tcloudbaseapp.com/" target="_blank" rel="noreferrer">体验当前原型 <span aria-hidden="true">↗</span></a></div>
+          <p class="playback-message" id="playbackMessage" role="status" hidden></p>
+          <div class="planet-flow"><h3>从念头到轮廓</h3><ol><li>捕捉灵感</li><li>补充想法</li><li>梳理轮廓</li><li>点亮灵感</li></ol></div>
+          <div class="planet-reflection"><h3>真正用起来，才看见下一步。</h3><p>试用之后，我发现需要先把核心流程做稳，再继续增加功能。</p><dl><div><dt>网络可用性</dt><dd>部分 AI 功能目前依赖网络环境，需要优先改善。</dd></div><div><dt>录音稳定性</dt><dd>手机息屏后录音可能中断。</dd></div><div><dt>补充想法</dt><dd>希望继续补充时，也能使用语音输入。</dd></div></dl></div>
+        </div>
+      </article>
+
+      <div class="subsection-heading reveal">
+        <span class="eyebrow">STILL GROWING</span>
+        <h3>正在生长</h3>
+        <p>从阅读记录、校园猫咪到提示词收藏，它们各处在不同的实践阶段；我把已经做到的和仍在探索的部分都如实记录下来。</p>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-card yueji-card reveal" aria-labelledby="yueji-title">
+          <figure class="yueji-preview">
+            <img src="assets/yueji-home-mobile.png" alt="阅迹当前公开首页的手机截图：未登录时显示阅读引导和空书架" loading="lazy" />
+            <figcaption>当前公开首页 · 未登录状态</figcaption>
+          </figure>
+          <div class="project-card-body">
+            <div class="project-card-top">
+              <span class="status status-thinking">可运行原型 · 书架基础</span>
+              <span class="project-index">02</span>
+            </div>
+            <h4 id="yueji-title">阅迹</h4>
+            <p class="card-tagline">给阅读节奏不固定的自己，一个容易重新开始的地方。</p>
+            <p class="yueji-card-summary">已公开部署，接入邮箱登录和书籍数据；阅读计时、感想记录与真实轨迹仍在推进。</p>
+            <div class="yueji-card-actions">
+              <a href="#yueji-detail" data-open-yueji>查看项目过程 ↓</a>
+              <a href="https://yueji-three.vercel.app/" target="_blank" rel="noreferrer">打开当前原型 ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal" aria-labelledby="miaoxueyuan-title">
+          <figure class="miaoxueyuan-preview">
+            <img src="assets/miaoxueyuan-home-desktop.png" alt="喵学园前端原型首页，展示校园猫咪主视觉与浏览入口" loading="lazy" />
+            <figcaption>公开原型首页 · 示例数据</figcaption>
+          </figure>
+          <div class="project-card-body">
+            <div class="project-card-top">
+              <span class="status status-thinking">可交互前端原型 · 示例数据</span>
+              <span class="project-index">03</span>
+            </div>
+            <h4 id="miaoxueyuan-title">喵学园</h4>
+            <p class="card-tagline">让校园猫咪的照护记录有处可寻。</p>
+            <p class="miaoxueyuan-card-summary">从投喂信息分散的观察出发，我尝试把猫咪档案、已登记的投喂和校园故事串成一个可交互的网页原型。</p>
+            <div class="miaoxueyuan-card-actions">
+              <a href="#miaoxueyuan-detail" data-open-miaoxueyuan>查看项目详情 ↓</a>
+              <a href="https://ayuanlang520-hash.github.io/miaoxueyuan/" target="_blank" rel="noopener noreferrer">在线体验前端原型 ↗</a>
+            </div>
+            <p class="miaoxueyuan-card-note">演示数据仅存当前浏览器；拍照识猫为模拟流程。</p>
+          </div>
+        </article>
+
+        <article class="project-card reveal" aria-labelledby="prompt-forest-title">
+          <figure class="prompt-forest-preview">
+            <img src="assets/prompt-forest-library-desktop.png" alt="Prompt Forest 本地演示版的桌面收藏列表，内容为内置演示提示词" loading="lazy" />
+            <figcaption>本地演示版 · 内置示例内容</figcaption>
+          </figure>
+          <div class="project-card-body">
+            <div class="project-card-top">
+              <span class="status status-thinking">本地可运行 MVP · 演示版</span>
+              <span class="project-index">04</span>
+            </div>
+            <h4 id="prompt-forest-title">Prompt Forest</h4>
+            <p class="card-tagline">让好提示词，长成一片林。</p>
+            <p class="prompt-forest-card-summary">为了把散落在对话和网页里的好用提示词找回来，我做了一个本地优先的收藏工具：保存、分类、搜索，再一键复制复用。</p>
+            <a class="prompt-forest-card-link" href="#prompt-forest-detail" data-open-prompt-forest>查看项目详情 ↓</a>
+            <p class="prompt-forest-card-note">Chrome 划词收藏已走通；目前没有公开体验地址。</p>
+          </div>
+        </article>
+      </div>
+
+      <details class="yueji-detail" id="yueji-detail">
+        <summary>阅迹 · 项目过程与当前进度 <span aria-hidden="true">＋</span></summary>
+        <div class="yueji-detail-content">
+          <div class="yueji-detail-text">
+            <div><h4>为什么做</h4><p>我的阅读节奏不稳定：有时一口气读很久，有时又很久没有翻书。我想做一个不靠连续打卡施压、能帮我从上次页码继续的工具。</p></div>
+            <div><h4>我做出的选择</h4><p>先聚焦“推进—留痕—积累”：建立真实书架，再记录单次阅读，最后让真实记录逐渐形成可回看的轨迹。</p></div>
+            <div><h4>现在做到哪一步</h4><p>已有公开网页、邮箱登录基础，以及接入书籍数据的书架和页码更新代码。此次验收没有登录进行书籍新增或更新的真实写入复测。当前的轨迹页仍是说明性空状态。</p></div>
+            <div><h4>下一步</h4><p>完成开始、暂停与结束阅读，保存页数和文字感想，再用这些真实记录生成历史轨迹。</p></div>
+            <div><h4>我和 AI 如何协作</h4><p>我提出使用情境和低压力原则，确认每一阶段要解决的问题；AI 协助完成代码实现、验证与材料整理。</p></div>
+            <p class="yueji-detail-note">截图来自未登录的公开页面；旧成长树中的数字为模拟数据，不作为当前成果展示。</p>
+            <div class="yueji-detail-links"><a href="https://yueji-three.vercel.app/" target="_blank" rel="noreferrer">访问当前原型 ↗</a><a href="https://github.com/ayuanlang520-hash/yueji" target="_blank" rel="noreferrer">查看公开代码 ↗</a></div>
+          </div>
+          <figure class="yueji-detail-image"><img src="assets/yueji-home-desktop.png" alt="阅迹当前公开首页的桌面截图，显示未登录空书架与阅读引导" loading="lazy" /><figcaption>公开首页 · 桌面视口 1440 × 900 · 未登录状态</figcaption></figure>
+        </div>
+      </details>
+
+      <details class="miaoxueyuan-detail" id="miaoxueyuan-detail">
+        <summary>喵学园 · 项目详情与演示边界 <span aria-hidden="true">＋</span></summary>
+        <div class="miaoxueyuan-detail-content">
+          <p class="miaoxueyuan-lead">校园里有同学自发照顾猫咪，却不容易知道别人已登记了哪些投喂，也很难持续看到同一只猫的故事。我希望先把“遇见猫咪—查看近期记录—补充记录与故事”做成可以体验的流程。</p>
+          <div class="miaoxueyuan-facts">
+            <div><h4>已经可以体验</h4><p>浏览 8 只示例猫咪的名册、搜索和区域筛选，查看猫咪档案；创建投喂记录并在时间线查看；浏览成长日记、校园动态和个人页。桌面与手机布局均已做适配。</p></div>
+            <div><h4>保存范围</h4><p>自己添加的记录只保存在当前浏览器，刷新后仍可看到；其他访问者和设备看不到这些记录。“今日已记录的投喂”不代表猫咪当天的全部进食。</p></div>
+            <div><h4>模拟演示</h4><p>猫咪、用户、投喂和故事均为示例数据，账号为固定演示身份。“拍照识猫”通过颜色与亮度规则展示上传、候选和人工确认流程，并非真实 AI 识别。</p></div>
+            <div><h4>尚未实现</h4><p>多人共享、真实登录、云数据库、生产级图片存储和管理员权限隔离尚未完成；管理员页仅用于演示。</p></div>
+          </div>
+          <p class="miaoxueyuan-limit">当前还需修复校园动态首次发布时的默认猫咪选择问题；示例“今日”时间会随长期使用变旧，图片存入浏览器也可能遇到容量限制。下一步是修复这些问题，再验证真实共享与校园试用。</p>
+          <div class="miaoxueyuan-gallery" aria-label="喵学园真实运行截图，内容为示例数据">
+            <figure><img src="assets/miaoxueyuan-profile-desktop.png" alt="喵学园奶盖档案与投喂记录的桌面截图，猫咪和记录均为示例数据" loading="lazy" /><figcaption>猫咪档案与投喂时间线 · 桌面 · 示例数据</figcaption></figure>
+            <figure><img src="assets/miaoxueyuan-feed-mobile.png" alt="喵学园校园动态的手机截图，动态内容为示例数据" loading="lazy" /><figcaption>校园动态 · 手机 · 示例数据</figcaption></figure>
+          </div>
+          <a class="miaoxueyuan-detail-link" href="https://ayuanlang520-hash.github.io/miaoxueyuan/" target="_blank" rel="noopener noreferrer">在线体验前端原型 ↗</a>
+        </div>
+      </details>
+
+      <details class="prompt-forest-detail" id="prompt-forest-detail">
+        <summary>Prompt Forest · 本地 MVP 与验证范围 <span aria-hidden="true">＋</span></summary>
+        <div class="prompt-forest-detail-content">
+          <p class="prompt-forest-lead">好用的 Prompt 常散落在不同对话和网页里。我提出保存、分类、快速找回并复制复用的需求，和 AI 一起把它做成了可在本地运行的网页与 Chrome 插件演示版。</p>
+          <div class="prompt-forest-facts">
+            <div><h4>网页端已验证</h4><p>可以新增 Prompt、选择或新建分类、按分类筛选、搜索和复制。记录与分类保存在当前浏览器，刷新后仍在；桌面与手机尺寸下的核心浏览操作可用。</p></div>
+            <div><h4>划词收藏</h4><p>在 Chrome 普通网页划词或使用右键菜单，可进入确认页保存，再到本机插件弹窗搜索、复制。这个闭环此前由我在 Chrome 实机确认；本轮验收核对了源码与自动测试，未重新加载插件实测。</p></div>
+            <div><h4>演示边界</h4><p>初始 8 条 Prompt 是内置演示数据；“最近整理”是简化标记，不是完整使用历史。网页和插件各自保存在本机浏览器中，没有账号或跨设备同步。</p></div>
+            <div><h4>尚未完成</h4><p>新版暂不支持编辑、删除 Prompt 或改名、删除分类；Edge、长期大量数据和不同网站的插入兼容性仍待验证。当前没有公开部署和可供访客使用的安装包。</p></div>
+          </div>
+          <p class="prompt-forest-validation">本轮验收：自动测试 9/9、Lint 与生产构建通过。下面的截图来自隔离的本地环境，不是公开网站；其中搜索结果与手机分类视图使用临时验收数据。</p>
+          <div class="prompt-forest-gallery" aria-label="Prompt Forest 本地运行截图">
+            <figure><img src="assets/prompt-forest-search-desktop.png" alt="Prompt Forest 桌面搜索结果，展示临时验收 Prompt 与复制成功提示" loading="lazy" /><figcaption>搜索与复制 · 桌面 · 临时验收数据</figcaption></figure>
+            <figure><img src="assets/prompt-forest-category-mobile.png" alt="Prompt Forest 手机分类筛选视图，展示一条临时验收 Prompt" loading="lazy" /><figcaption>分类筛选 · 手机 · 临时验收数据</figcaption></figure>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="section more" id="more">
+      <div class="section-heading reveal">
+        <span class="eyebrow">MORE BRANCHES ARE GROWING</span>
+        <h2>还有一些枝条正在生长。</h2>
+        <p>它们现在不一定是“作品”，但已经是我真实在思考、尝试或实践的问题。</p>
+      </div>
+
+      <div class="branch-list">
+        <article class="branch-card reveal">
+          <span class="branch-icon">🌱</span>
+          <div><span class="status status-idea">产品想法</span><h3>AI 转行探索助手</h3><p>从自己的处境出发：如果一个普通人想转向 AI，能不能更清楚地理解岗位、匹配方向、制定学习计划，并一步步走到真实求职？</p></div>
+        </article>
+        <article class="branch-card reveal">
+          <span class="branch-icon">🌿</span>
+          <div><span class="status status-explore">探索中</span><h3>AI 商业化实验</h3><p>从趣味测试、小店到 AI 带货，我想实际验证：AI 能不能帮助普通人从内容与产品出发，走完一条真实的商业闭环。</p></div>
+        </article>
+        <article class="branch-card reveal">
+          <span class="branch-icon">🍃</span>
+          <div><span class="status status-doing">正在实践</span><h3>AI × 科研工作流</h3><p>把 AI 放进我的真实研究流程：定时寻找文献、整理研究方向、辅助比较选题，让“找资料”逐渐变成一套可以重复使用的工作流。</p></div>
+        </article>
+        <article class="branch-card reveal future-card">
+          <span class="branch-icon">＋</span>
+          <div><span class="status">新的可能</span><h3>下一根枝条，会长向哪里？</h3><p>这里故意留白。它不是一个假装存在的项目，而是给之后真正发生的探索留的位置。</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section path" id="path">
+      <div class="section-heading reveal">
+        <span class="eyebrow">HOW I GOT HERE</span>
+        <h2>我一直在认真走路，<br>却很少认真选方向。</h2>
+      </div>
+
+      <div class="path-layout">
+        <div class="story reveal">
+          <p>“女孩子做老师挺好的。”这是我很熟悉的一句话。高考填志愿时，我在自己的可选择范围里挑了一所遥远的学校，也选择了它很有优势的化学师范专业。那时的我并没有真正问过自己：我想成为什么样的人？</p>
+          <p>后来到了考研，我明明又拥有一次重新选择的机会，却还是下意识地把目光放在学科化学上。2025 年 3—6 月，我一边在中学实习，一边已经开始准备学科化学的研究生考试。</p>
+          <p>实习时，我很喜欢和学生们相处，也会和他们聊未来。听到一些孩子很清楚自己想要什么时，我反而开始羡慕他们。那时候我第一次认真问自己：<strong>我已经这么努力地沿着这条路往前走了，可它真的是我想一直走下去的方向吗？</strong></p>
+          <p>我依然感谢教育学，也感谢一路遇到的老师和学生。正是这些经历让我开始意识到：女孩当然可以成为老师，也可以去做很多别的事情。过去的学习是我的来路，但不需要成为未来的边界。</p>
+          <p>现在，我想把研究生这两年当成一次真正的探索。去学习，去阅读，去寻找，也去创造一点属于自己的东西。也许现在的想法还不成熟，但我希望有一天，它们能真的长出枝枝蔓蔓。</p>
+        </div>
+
+        <div class="timeline reveal" aria-label="个人路径时间线">
+          <div class="timeline-item"><span class="year">2022</span><div><strong>化学（师范）</strong><p>沿着一条看起来合适的路开始大学。</p></div></div>
+          <div class="timeline-item"><span class="year">2025.03–06</span><div><strong>中学实习</strong><p>和学生聊梦想，也开始重新看自己。</p></div></div>
+          <div class="timeline-item"><span class="year">2025–26</span><div><strong>考研与毕业论文</strong><p>一边继续走，一边开始意识到“选择方向”本身也是能力。</p></div></div>
+          <div class="timeline-item current"><span class="year">NOW</span><div><strong>主动探索</strong><p>AI / 产品 / 阅读 / 科研工作流 / 商业化尝试。</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section together" id="together">
+      <div class="together-card reveal">
+        <span class="eyebrow">WHAT I’M LOOKING FOR</span>
+        <h2>我想和愿意把想法变成东西的人，一起做事。</h2>
+        <p>我现在还不能确定自己的最终方向。但我越来越确定，我喜欢和可以讨论、可以质疑、也愿意真正动手试一试的人一起工作。</p>
+        <p>我期待参与真实的项目，在合作中学习，也把自己的想法一步步做出来。</p>
+        <div class="tiny-tree" aria-hidden="true">↳ 🌱 ─── 🌿 ─── ●</div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="contact-wrap reveal">
+        <div>
+          <span class="eyebrow">SAY HELLO</span>
+          <h2>下一根枝条，<br>也许从一次交流开始。</h2>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:2443724865@qq.com"><span>邮箱</span><strong>2443724865@qq.com</strong><i>↗</i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>SYLVIE WU · 2026</span>
+    <span>Built as a living page — still growing.</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
