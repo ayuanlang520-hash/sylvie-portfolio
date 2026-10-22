@@ -52,7 +52,7 @@ export default function (eleventyConfig) {
       if (!/\.(?:css|js|png|jpe?g|webp|svg|pdf|md|mp4)$/.test(file) || !existsSync(file)) return match;
       if (!assetHashes.has(file)) assetHashes.set(file, createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 12));
       return `${attribute}="${url}?v=${assetHashes.get(file)}"`;
-    }).replace(/<a\b([^>]*\bhref="(?:\.\.\/)*assets\/[^\"]+\.pdf(?:\?[^\"]*)?"[^>]*)>/g, '<a$1 download>');
+    }).replace(/<a\b([^>]*\bhref="(?:\.\.\/)*assets\/[^\"]+\.(?:pdf|md)(?:\?[^\"]*)?"[^>]*)>/g, '<a$1 download>');
   });
   for (const path of ['assets', 'styles.css', 'stage2.css', 'beichen.css', 'script.js', '.nojekyll']) {
     eleventyConfig.addPassthroughCopy({ [path]: path });

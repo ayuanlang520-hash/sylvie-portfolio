@@ -17,9 +17,9 @@
   ],
   "result": {
     "href": "../../assets/beichen/求职-SKILL.md",
-    "note": "原始文件保持不变。返回求职 AI Skill 案例可查看实际完成情况与局限。",
-    "external": true,
-    "label": "打开原始 Markdown 文件"
+    "note": "正文可直接在本页阅读。此按钮下载 UTF-8 编码的 SKILL.md 原文件，内容保持不变。",
+    "external": false,
+    "label": "下载 SKILL.md 原文件"
   },
   "status": "历史原始文档 · 不作为面试录制完成证明",
   "title": "求职 Skill 原始材料",

@@ -51,3 +51,19 @@ test('homepage has three cases with separate result and process entries, after o
     assert.equal(all(card, node => node.tagName === 'a' && text(node).includes('看实践过程')).length, 1);
   }
 });
+
+test('Skill source downloads as original UTF-8 bytes instead of opening in a guessed browser encoding', async () => {
+  const html = await readFile('_site/beichen/skill/index.html', 'utf8');
+  const doc = parse(html);
+  const sourceLink = all(doc, node => node.tagName === 'a' && /\.md(?:\?|$)/.test(attr(node, 'href') || ''))[0];
+  assert.ok(sourceLink);
+  assert.notEqual(attr(sourceLink, 'download'), undefined);
+  assert.equal(attr(sourceLink, 'target'), undefined);
+  assert.ok(text(sourceLink).includes('下载'));
+  assert.ok(html.includes('<meta charset="utf-8"'));
+  assert.ok(html.includes('求职路径打通 Skill'));
+  const original = await readFile('assets/beichen/求职-SKILL.md');
+  const downloaded = await readFile('_site/assets/beichen/求职-SKILL.md');
+  assert.deepEqual(downloaded, original);
+  assert.ok(new TextDecoder('utf-8', { fatal: true }).decode(downloaded).startsWith('# 求职路径打通 Skill'));
+});
