@@ -9,7 +9,7 @@
       "year": "2022",
       "title": "化学（师范）",
       "description": "沿着一条看起来合适的路开始大学。",
-      "current": true
+      "current": false
     },
     {
       "year": "2025.03–06",
@@ -27,7 +27,7 @@
       "year": "NOW",
       "title": "主动探索",
       "description": "AI / 产品 / 阅读 / 科研工作流 / 商业化尝试。",
-      "current": false
+      "current": true
     }
   ]
 }
