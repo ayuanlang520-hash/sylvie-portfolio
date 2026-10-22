@@ -3,7 +3,7 @@ import { mkdirSync, writeFileSync, appendFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const contentPaths = ['src/_data', 'src/content', 'assets'];
+const contentPaths = ['src/_data', 'src/content', 'assets', ':(glob,exclude)src/content/**/*.11tydata.*'];
 function git(root, ...args) { return execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim(); }
 function clean(root) {
   if (git(root, 'status', '--porcelain', '--untracked-files=no')) throw new Error('当前有未提交修改，已停止恢复以保护内容。');

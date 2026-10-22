@@ -21,7 +21,7 @@
   "actions": {
     "play": "播放演示",
     "prototype": {
-      "label": "体验当前原型",
+      "label": "体验原型（需确认访问）",
       "href": "https://inspiration-planet-d9cyp7bb2adaf-1380653399.tcloudbaseapp.com/",
       "target": "_blank",
       "rel": "noreferrer"

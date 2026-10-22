@@ -5,6 +5,7 @@
   "description": "Sylvie 个人主页：由内容数据和 Markdown 生成静态页面。",
   "type": "module",
   "scripts": {
+    "prebuild": "node scripts/clean-output.mjs",
     "build": "eleventy",
     "start": "eleventy --serve --port=8091",
     "test": "npm run build && node --test tests/*.test.mjs"

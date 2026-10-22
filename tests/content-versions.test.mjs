@@ -21,6 +21,7 @@ async function repository(t) {
   for (const folder of ['src/_data', 'src/content', 'assets']) await mkdir(path.join(root, folder), { recursive: true });
   await writeFile(path.join(root, 'src/_data/profile.json'), '{"name":"备份前"}');
   await writeFile(path.join(root, 'src/content/article.md'), '原文章');
+  await writeFile(path.join(root, 'src/content/article.11tydata.json'), '{"layout":"旧规则"}');
   await writeFile(path.join(root, 'assets/example.txt'), '原附件');
   await writeFile(path.join(root, 'program.txt'), '旧程序');
   git('add', '.'); git('commit', '-m', 'Seed test');
@@ -37,6 +38,7 @@ test('backup and restore recover changed, deleted and added content while preser
   await writeFile(path.join(root, 'src/content/new.md'), '新增文章');
   await rm(path.join(root, 'assets/example.txt'));
   await writeFile(path.join(root, 'program.txt'), '修好后的程序');
+  await writeFile(path.join(root, 'src/content/article.11tydata.json'), '{"layout":"当前规则"}');
   git('add', 'src', 'assets', 'program.txt'); git('commit', '-m', 'Change content and code');
   const beforeRestore = git('rev-parse', 'HEAD');
   const restored = restoreContent(root, 'latest', new Date('2026-10-22T00:01:00Z'));
@@ -45,6 +47,7 @@ test('backup and restore recover changed, deleted and added content while preser
   assert.equal(await readFile(path.join(root, 'assets/example.txt'), 'utf8'), '原附件');
   await assert.rejects(stat(path.join(root, 'src/content/new.md')));
   assert.equal(await readFile(path.join(root, 'program.txt'), 'utf8'), '修好后的程序');
+  assert.equal(await readFile(path.join(root, 'src/content/article.11tydata.json'), 'utf8'), '{"layout":"当前规则"}');
   assert.equal(git('rev-parse', restored.safetyTag), beforeRestore);
   restoreContent(root, beforeRestore, new Date('2026-10-22T00:02:00Z'));
   assert.equal(await readFile(path.join(root, 'src/_data/profile.json'), 'utf8'), '{"name":"修改后"}');
