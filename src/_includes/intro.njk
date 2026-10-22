@@ -1,0 +1,110 @@
+<div class="intro" id="intro" aria-label="开场生长动画">
+    <button class="intro-skip" id="skipIntro" type="button">跳过动画</button>
+
+    <div class="growth-stage" aria-hidden="true">
+      <svg class="growth-svg" viewBox="0 0 640 720" role="img">
+        <defs>
+          <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+            <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#244d35" flood-opacity=".10"/>
+          </filter>
+        </defs>
+
+        <!-- 1. 地面与种子 -->
+        <path class="ground-mound" d="M120 604 C190 583 252 595 320 589 C397 582 462 589 520 607 C453 623 193 625 120 604Z"/>
+        <ellipse class="intro-seed" cx="320" cy="608" rx="11" ry="17" transform="rotate(20 320 608)"/>
+
+        <path class="intro-root root-left" d="M320 611 C309 630 299 644 286 655"/>
+        <path class="intro-root root-right" d="M321 611 C333 629 344 642 359 652"/>
+
+        <!-- 2. 破土的小芽 -->
+        <path class="sprout-stem" d="M320 598 C319 575 320 554 320 530"/>
+        <g class="sprout-leaf sprout-leaf-left" transform="translate(307 545) rotate(-28)">
+          <ellipse rx="17" ry="8"/>
+        </g>
+        <g class="sprout-leaf sprout-leaf-right" transform="translate(334 538) rotate(26)">
+          <ellipse rx="17" ry="8"/>
+        </g>
+
+        <!-- 3. 主干与抽枝 -->
+        <g class="mature-tree" filter="url(#softShadow)">
+          <path class="tree-trunk" d="M320 596 C312 542 327 500 318 452 C308 399 325 349 319 297 C314 247 320 202 323 158"/>
+          <path class="tree-branch branch-lower-left" d="M319 455 C275 435 242 404 213 365"/>
+          <path class="tree-branch branch-lower-right" d="M320 421 C366 400 405 369 432 331"/>
+          <path class="tree-branch branch-mid-left" d="M319 371 C281 346 252 315 236 281"/>
+          <path class="tree-branch branch-mid-right" d="M320 335 C359 315 389 285 406 250"/>
+          <path class="tree-branch branch-upper-left" d="M321 278 C294 259 276 234 267 205"/>
+          <path class="tree-branch branch-upper-right" d="M322 244 C350 226 367 201 377 174"/>
+
+          <!-- 叶子：外层负责定位，内层只负责长出来，避免 transform 覆盖定位 -->
+          <g class="leaf-anchor" transform="translate(210 360) rotate(-24)"><ellipse class="tree-leaf l1" rx="22" ry="11"/></g>
+          <g class="leaf-anchor" transform="translate(241 397) rotate(18)"><ellipse class="tree-leaf l2" rx="21" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(271 425) rotate(-10)"><ellipse class="tree-leaf l3" rx="20" ry="10"/></g>
+
+          <g class="leaf-anchor" transform="translate(434 327) rotate(-22)"><ellipse class="tree-leaf l4" rx="22" ry="11"/></g>
+          <g class="leaf-anchor" transform="translate(398 365) rotate(24)"><ellipse class="tree-leaf l5" rx="20" ry="10"/></g>
+
+          <g class="leaf-anchor" transform="translate(234 278) rotate(18)"><ellipse class="tree-leaf l6" rx="21" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(266 318) rotate(-25)"><ellipse class="tree-leaf l7" rx="20" ry="10"/></g>
+
+          <g class="leaf-anchor" transform="translate(409 247) rotate(-22)"><ellipse class="tree-leaf l8" rx="21" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(380 286) rotate(20)"><ellipse class="tree-leaf l9" rx="20" ry="10"/></g>
+
+          <g class="leaf-anchor" transform="translate(266 202) rotate(21)"><ellipse class="tree-leaf l10" rx="20" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(292 239) rotate(-18)"><ellipse class="tree-leaf l11" rx="19" ry="9"/></g>
+
+          <g class="leaf-anchor" transform="translate(378 171) rotate(-20)"><ellipse class="tree-leaf l12" rx="20" ry="10"/></g>
+          <g class="leaf-anchor" transform="translate(353 209) rotate(23)"><ellipse class="tree-leaf l13" rx="19" ry="9"/></g>
+
+          <!-- 4. 花：先开，再淡去 -->
+          <g class="blossom-anchor" transform="translate(229 343)">
+            <g class="blossom bl1">
+              <circle cx="0" cy="-8" r="6"/><circle cx="8" cy="0" r="6"/><circle cx="0" cy="8" r="6"/><circle cx="-8" cy="0" r="6"/><circle class="blossom-center" r="3.5"/>
+            </g>
+          </g>
+          <g class="blossom-anchor" transform="translate(420 313)">
+            <g class="blossom bl2">
+              <circle cx="0" cy="-8" r="6"/><circle cx="8" cy="0" r="6"/><circle cx="0" cy="8" r="6"/><circle cx="-8" cy="0" r="6"/><circle class="blossom-center" r="3.5"/>
+            </g>
+          </g>
+          <g class="blossom-anchor" transform="translate(254 262)">
+            <g class="blossom bl3">
+              <circle cx="0" cy="-8" r="6"/><circle cx="8" cy="0" r="6"/><circle cx="0" cy="8" r="6"/><circle cx="-8" cy="0" r="6"/><circle class="blossom-center" r="3.5"/>
+            </g>
+          </g>
+          <g class="blossom-anchor" transform="translate(395 229)">
+            <g class="blossom bl4">
+              <circle cx="0" cy="-8" r="6"/><circle cx="8" cy="0" r="6"/><circle cx="0" cy="8" r="6"/><circle cx="-8" cy="0" r="6"/><circle class="blossom-center" r="3.5"/>
+            </g>
+          </g>
+
+          <!-- 5. 果实：只有树长好、花开过以后才出现 -->
+          <g class="fruit-anchor" transform="translate(230 344)">
+            <g class="tree-fruit tf1"><circle r="13"/><path class="fruit-stem" d="M1 -12 C3 -20 8 -23 13 -20"/><ellipse class="fruit-leaf" cx="12" cy="-18" rx="6" ry="3.5" transform="rotate(-20 12 -18)"/></g>
+          </g>
+          <g class="fruit-anchor" transform="translate(421 313)">
+            <g class="tree-fruit tf2"><circle r="13"/><path class="fruit-stem" d="M1 -12 C3 -20 8 -23 13 -20"/><ellipse class="fruit-leaf" cx="12" cy="-18" rx="6" ry="3.5" transform="rotate(-20 12 -18)"/></g>
+          </g>
+          <g class="fruit-anchor falling-fruit-anchor" transform="translate(396 230)">
+            <g class="tree-fruit falling-fruit">
+              <circle r="14"/><path class="fruit-stem" d="M1 -13 C3 -21 8 -24 13 -21"/><ellipse class="fruit-leaf" cx="12" cy="-19" rx="6" ry="3.5" transform="rotate(-20 12 -19)"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- 果实触地点的小涟漪，只在最后瞬间出现 -->
+        <ellipse class="impact-ripple" cx="326" cy="612" rx="15" ry="4"/>
+      </svg>
+    </div>
+
+    <!-- 6. 果实触地后，抽象有机色块从下向上揭开主页 -->
+    <div class="organic-transition" aria-hidden="true">
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="none">
+        <path d="M0 170
+                 C120 92 222 204 351 131
+                 C473 61 581 189 706 117
+                 C831 46 942 194 1071 120
+                 C1197 50 1312 170 1440 103
+                 L1440 900 L0 900 Z"/>
+      </svg>
+    </div>
+  </div>

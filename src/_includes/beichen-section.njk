@@ -1,0 +1,19 @@
+<section class="section beichen" id="experience" aria-labelledby="beichenTitle">
+  <div class="beichen-heading">
+    <div><span class="eyebrow">{{ beichen.eyebrow }}</span><h2 id="beichenTitle">{{ beichen.title }}<span>{{ beichen.subtitle }}</span></h2></div>
+    <p class="beichen-period">{{ beichen.period }}</p>
+  </div>
+  <p class="beichen-introduction">{{ beichen.introduction }}</p>
+  <p class="beichen-context">{{ beichen.priorPractice }}</p>
+  <div class="beichen-grid">
+    {% for item in collections.caseStudies %}
+    <article class="beichen-card">
+      <a class="beichen-cover {{ item.data.coverStyle }}" href="beichen/{{ item.data.id }}/" aria-label="{{ item.data.title }}：看实践过程">
+        {% if item.data.cover %}<img src="{{ item.data.cover | linkHref }}" alt="{{ item.data.coverAlt }}" loading="lazy" width="720" height="460" />{% else %}<div class="skill-cover" aria-hidden="true"><span>求职准备 / SKILL.md</span><strong>岗位 → 经历<br>材料 → 准备</strong><span>把四个环节，写成可复用的流程。</span></div>{% endif %}
+      </a>
+      <div class="beichen-card-body"><p class="beichen-week">{{ item.data.eyebrow }}</p><h3>{{ item.data.title }}</h3><p class="beichen-card-summary">{{ item.data.summary }}</p><p class="beichen-status">{{ item.data.status }}</p><div class="beichen-actions"><a href="{{ item.data.homeResult | linkHref }}"{% if item.data.result.external %} target="_blank" rel="noreferrer"{% endif %}>看成果 <span aria-hidden="true">↗</span></a><a href="beichen/{{ item.data.id }}/">看实践过程 <span aria-hidden="true">→</span></a></div></div>
+    </article>
+    {% endfor %}
+  </div>
+  <a class="beichen-reflection" href="{{ beichen.reflectionHref | linkHref }}"><div><span class="eyebrow">结营复盘 · 草稿</span><h3>{{ beichen.reflectionTitle }}</h3><p>{{ beichen.reflectionSummary }}</p></div><span class="reflection-arrow" aria-hidden="true">↗</span></a>
+</section>

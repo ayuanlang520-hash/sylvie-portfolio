@@ -1,0 +1,54 @@
+{% macro image(figure, className='') %}
+<figure{% if className %} class="{{ className }}"{% endif %}><img src="{{ figure.src | linkHref }}" alt="{{ figure.alt }}" loading="lazy" /><figcaption>{{ figure.caption }}</figcaption></figure>
+{% endmacro %}
+
+{% macro link(item, className='') %}
+<a{% if className %} class="{{ className }}"{% endif %} href="{{ item.href | linkHref }}"{% if item.target %} target="{{ item.target }}"{% endif %}{% if item.rel %} rel="{{ item.rel }}"{% endif %}>{{ item.label }}</a>
+{% endmacro %}
+
+{% macro card(project) %}
+{% set item = project.data %}
+<article class="project-card{% if item.id == 'yueji' %} yueji-card{% endif %} reveal" aria-labelledby="{{ item.id }}-title">
+  {{ image(item.cover, item.id + '-preview') }}
+  <div class="project-card-body">
+    <div class="project-card-top"><span class="status status-thinking">{{ item.status }}</span><span class="project-index">{{ item.number }}</span></div>
+    <h4 id="{{ item.id }}-title">{{ item.title }}</h4>
+    <p class="card-tagline">{{ item.tagline }}</p>
+    <p class="{{ item.id }}-card-summary">{{ item.summary }}</p>
+    {% if item.id == 'prompt-forest' %}
+      <a class="prompt-forest-card-link" href="{{ item.links[0].href | linkHref }}" data-open-prompt-forest>{{ item.links[0].label }}</a>
+    {% else %}
+      <div class="{{ item.id }}-card-actions">
+      {% for action in item.links %}
+        <a href="{{ action.href | linkHref }}"{% if action.target %} target="{{ action.target }}"{% endif %}{% if action.rel %} rel="{{ action.rel }}"{% endif %}{% if loop.first %} data-open-{{ item.id }}{% endif %}>{{ action.label }}</a>
+      {% endfor %}
+      </div>
+    {% endif %}
+    {% if item.note %}<p class="{{ item.id }}-card-note">{{ item.note }}</p>{% endif %}
+  </div>
+</article>
+{% endmacro %}
+
+{% macro detail(project) %}
+{% set item = project.data %}
+<details class="{{ item.id }}-detail" id="{{ item.id }}-detail">
+  <summary>{{ item.detail.summary }} <span aria-hidden="true">＋</span></summary>
+  <div class="{{ item.id }}-detail-content">
+  {% if item.id == 'yueji' %}
+    <div class="yueji-detail-text">
+      {{ project.templateContent | detailSections | safe }}
+      <p class="yueji-detail-note">{{ item.detail.note }}</p>
+      <div class="yueji-detail-links">{% for action in item.detail.links %}{{ link(action) }}{% endfor %}</div>
+    </div>
+    {{ image(item.detail.images[0], 'yueji-detail-image') }}
+  {% else %}
+    <p class="{{ item.id }}-lead">{{ item.detail.lead }}</p>
+    <div class="{{ item.id }}-facts">{{ project.templateContent | detailSections | safe }}</div>
+    {% if item.detail.limitation %}<p class="{{ item.id }}-limit">{{ item.detail.limitation }}</p>{% endif %}
+    {% if item.detail.validation %}<p class="{{ item.id }}-validation">{{ item.detail.validation }}</p>{% endif %}
+    <div class="{{ item.id }}-gallery" aria-label="{{ item.detail.galleryLabel }}">{% for figure in item.detail.images %}{{ image(figure) }}{% endfor %}</div>
+    {% for action in item.detail.links %}{{ link(action, item.id + '-detail-link') }}{% endfor %}
+  {% endif %}
+  </div>
+</details>
+{% endmacro %}

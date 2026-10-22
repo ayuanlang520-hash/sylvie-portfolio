@@ -1,0 +1,1376 @@
+media:
+  - name: assets
+    label: 图片与附件
+    input: assets
+    output: /assets
+content:
+  - name: profile
+    label: 个人介绍与联系方式
+    type: file
+    path: src/_data/profile.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: metadata
+        label: 网站设置
+        type: object
+        fields:
+          - name: title
+            label: 标题
+            type: string
+          - name: description
+            label: 介绍
+            type: text
+          - name: themeColor
+            label: 主题颜色
+            type: string
+      - name: brand
+        label: 页首姓名
+        type: string
+      - name: navigation
+        label: 导航
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: 显示文字
+            type: string
+          - name: href
+            label: 链接
+            type: string
+      - name: hero
+        label: 首页介绍
+        type: object
+        fields:
+          - name: name
+            label: 姓名
+            type: string
+          - name: englishName
+            label: 英文名
+            type: string
+          - name: role
+            label: 个人定位
+            type: string
+          - name: titleFirst
+            label: 标题第一行
+            type: string
+          - name: titleSecond
+            label: 标题第二行
+            type: string
+          - name: titleEnd
+            label: 标题结尾
+            type: string
+          - name: introduction
+            label: 简介
+            type: text
+          - name: actions
+            label: 按钮
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: href
+                label: 链接
+                type: string
+              - name: arrow
+                label: 箭头
+                type: string
+          - name: education
+            label: 教育背景
+            type: string
+          - name: learning
+            label: 正在学习
+            type: string
+      - name: contact
+        label: 联系方式
+        type: object
+        fields:
+          - name: eyebrow
+            label: 栏目小标题
+            type: string
+          - name: titleLines
+            label: 标题分行
+            type: string
+            list: true
+          - name: links
+            label: 链接列表
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: value
+                label: 内容
+                type: string
+              - name: href
+                label: 链接
+                type: string
+      - name: footer
+        label: 页脚
+        type: string
+        list: true
+  - name: story
+    label: 我的故事
+    type: file
+    path: src/content/story.md
+    format: yaml-frontmatter
+    operations:
+      delete: false
+    fields:
+      - name: body
+        label: 正文
+        type: rich-text
+        options:
+          format: markdown
+          media: assets
+  - name: existing-projects
+    label: 已有作品
+    type: group
+    items:
+      - name: project-intro
+        label: 作品区标题
+        type: file
+        path: src/_data/projectIntro.json
+        format: json
+        operations:
+          delete: false
+        fields:
+          - name: eyebrow
+            label: 栏目小标题
+            type: string
+          - name: title
+            label: 标题
+            type: string
+          - name: introduction
+            label: 简介
+            type: text
+      - name: inspiration-planet
+        label: 灵感星球
+        type: file
+        path: src/content/projects/inspiration-planet.md
+        format: json-frontmatter
+        operations:
+          delete: false
+        fields:
+          - name: id
+            label: 固定标识
+            type: string
+            required: true
+            readonly: true
+          - name: order
+            label: 展示顺序
+            type: number
+          - name: featured
+            label: 首页主推
+            type: boolean
+            hidden: true
+          - name: title
+            label: 标题
+            type: string
+          - name: eyebrow
+            label: 栏目小标题
+            type: string
+          - name: status
+            label: 当前状态
+            type: string
+          - name: tagline
+            label: 一句话介绍
+            type: string
+          - name: motivation
+            label: 为什么做
+            type: text
+          - name: video
+            label: 演示视频
+            type: object
+            fields:
+              - name: src
+                label: 图片
+                type: file
+                options:
+                  media: assets
+              - name: poster
+                label: 视频封面
+                type: image
+                options:
+                  media: assets
+              - name: label
+                label: 显示文字
+                type: string
+              - name: fallback
+                label: 无法播放时的说明
+                type: string
+              - name: captionTitle
+                label: 视频标题
+                type: string
+              - name: duration
+                label: 时长
+                type: string
+              - name: note
+                label: 补充说明
+                type: text
+              - name: backupLabel
+                label: 视频备用入口文字
+                type: string
+          - name: actions
+            label: 按钮
+            type: object
+            fields:
+              - name: play
+                label: 播放按钮文字
+                type: string
+              - name: prototype
+                label: 体验链接
+                type: object
+                fields:
+                  - name: label
+                    label: 显示文字
+                    type: string
+                  - name: href
+                    label: 链接
+                    type: string
+                  - name: target
+                    label: 打开方式
+                    type: string
+                    hidden: true
+                  - name: rel
+                    label: 链接属性
+                    type: string
+                    hidden: true
+          - name: flow
+            label: 使用步骤
+            type: object
+            fields:
+              - name: title
+                label: 标题
+                type: string
+              - name: steps
+                label: 步骤
+                type: string
+                list: true
+          - name: reflection
+            label: 项目复盘
+            type: object
+            fields:
+              - name: title
+                label: 标题
+                type: string
+              - name: introduction
+                label: 简介
+                type: text
+              - name: items
+                label: 条目
+                type: object
+                list: true
+                fields:
+                  - name: title
+                    label: 标题
+                    type: string
+                  - name: description
+                    label: 介绍
+                    type: text
+          - name: body
+            label: 正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
+      - name: yueji
+        label: 阅迹
+        type: file
+        path: src/content/projects/yueji.md
+        format: json-frontmatter
+        operations:
+          delete: false
+        fields:
+          - name: id
+            label: 固定标识
+            type: string
+            required: true
+            readonly: true
+          - name: order
+            label: 展示顺序
+            type: number
+          - name: featured
+            label: 首页主推
+            type: boolean
+            hidden: true
+          - name: title
+            label: 标题
+            type: string
+          - name: status
+            label: 当前状态
+            type: string
+          - name: number
+            label: 编号
+            type: string
+          - name: tagline
+            label: 一句话介绍
+            type: string
+          - name: summary
+            label: 简述
+            type: text
+          - name: cover
+            label: 封面图片
+            type: object
+            fields:
+              - name: src
+                label: 图片
+                type: image
+                options:
+                  media: assets
+              - name: alt
+                label: 图片说明
+                type: string
+              - name: caption
+                label: 图片下方说明
+                type: string
+          - name: links
+            label: 链接列表
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: href
+                label: 链接
+                type: string
+          - name: note
+            label: 补充说明
+            type: text
+          - name: detail
+            label: 展开详情
+            type: object
+            fields:
+              - name: summary
+                label: 简述
+                type: text
+              - name: lead
+                label: 开头介绍
+                type: text
+              - name: note
+                label: 补充说明
+                type: text
+              - name: limitation
+                label: 使用限制
+                type: string
+              - name: validation
+                label: 测试情况
+                type: string
+              - name: links
+                label: 链接列表
+                type: object
+                list: true
+                fields:
+                  - name: label
+                    label: 显示文字
+                    type: string
+                  - name: href
+                    label: 链接
+                    type: string
+                  - name: target
+                    label: 打开方式
+                    type: string
+                    hidden: true
+                  - name: rel
+                    label: 链接属性
+                    type: string
+                    hidden: true
+              - name: images
+                label: 图片列表
+                type: object
+                list: true
+                fields:
+                  - name: src
+                    label: 图片
+                    type: image
+                    options:
+                      media: assets
+                  - name: alt
+                    label: 图片说明
+                    type: string
+                  - name: caption
+                    label: 图片下方说明
+                    type: string
+              - name: galleryLabel
+                label: 图片组说明
+                type: string
+          - name: body
+            label: 正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
+      - name: miaoxueyuan
+        label: 喵学园
+        type: file
+        path: src/content/projects/miaoxueyuan.md
+        format: json-frontmatter
+        operations:
+          delete: false
+        fields:
+          - name: id
+            label: 固定标识
+            type: string
+            required: true
+            readonly: true
+          - name: order
+            label: 展示顺序
+            type: number
+          - name: featured
+            label: 首页主推
+            type: boolean
+            hidden: true
+          - name: title
+            label: 标题
+            type: string
+          - name: status
+            label: 当前状态
+            type: string
+          - name: number
+            label: 编号
+            type: string
+          - name: tagline
+            label: 一句话介绍
+            type: string
+          - name: summary
+            label: 简述
+            type: text
+          - name: cover
+            label: 封面图片
+            type: object
+            fields:
+              - name: src
+                label: 图片
+                type: image
+                options:
+                  media: assets
+              - name: alt
+                label: 图片说明
+                type: string
+              - name: caption
+                label: 图片下方说明
+                type: string
+          - name: links
+            label: 链接列表
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: href
+                label: 链接
+                type: string
+          - name: note
+            label: 补充说明
+            type: text
+          - name: detail
+            label: 展开详情
+            type: object
+            fields:
+              - name: summary
+                label: 简述
+                type: text
+              - name: lead
+                label: 开头介绍
+                type: text
+              - name: note
+                label: 补充说明
+                type: text
+              - name: limitation
+                label: 使用限制
+                type: string
+              - name: validation
+                label: 测试情况
+                type: string
+              - name: links
+                label: 链接列表
+                type: object
+                list: true
+                fields:
+                  - name: label
+                    label: 显示文字
+                    type: string
+                  - name: href
+                    label: 链接
+                    type: string
+                  - name: target
+                    label: 打开方式
+                    type: string
+                    hidden: true
+                  - name: rel
+                    label: 链接属性
+                    type: string
+                    hidden: true
+              - name: images
+                label: 图片列表
+                type: object
+                list: true
+                fields:
+                  - name: src
+                    label: 图片
+                    type: image
+                    options:
+                      media: assets
+                  - name: alt
+                    label: 图片说明
+                    type: string
+                  - name: caption
+                    label: 图片下方说明
+                    type: string
+              - name: galleryLabel
+                label: 图片组说明
+                type: string
+          - name: body
+            label: 正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
+      - name: prompt-forest
+        label: Prompt Forest · 提示词收藏
+        type: file
+        path: src/content/projects/prompt-forest.md
+        format: json-frontmatter
+        operations:
+          delete: false
+        fields:
+          - name: id
+            label: 固定标识
+            type: string
+            required: true
+            readonly: true
+          - name: order
+            label: 展示顺序
+            type: number
+          - name: featured
+            label: 首页主推
+            type: boolean
+            hidden: true
+          - name: title
+            label: 标题
+            type: string
+          - name: status
+            label: 当前状态
+            type: string
+          - name: number
+            label: 编号
+            type: string
+          - name: tagline
+            label: 一句话介绍
+            type: string
+          - name: summary
+            label: 简述
+            type: text
+          - name: cover
+            label: 封面图片
+            type: object
+            fields:
+              - name: src
+                label: 图片
+                type: image
+                options:
+                  media: assets
+              - name: alt
+                label: 图片说明
+                type: string
+              - name: caption
+                label: 图片下方说明
+                type: string
+          - name: links
+            label: 链接列表
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: href
+                label: 链接
+                type: string
+          - name: note
+            label: 补充说明
+            type: text
+          - name: detail
+            label: 展开详情
+            type: object
+            fields:
+              - name: summary
+                label: 简述
+                type: text
+              - name: lead
+                label: 开头介绍
+                type: text
+              - name: note
+                label: 补充说明
+                type: text
+              - name: limitation
+                label: 使用限制
+                type: string
+              - name: validation
+                label: 测试情况
+                type: string
+              - name: links
+                label: 链接列表
+                type: string
+                list: true
+              - name: images
+                label: 图片列表
+                type: object
+                list: true
+                fields:
+                  - name: src
+                    label: 图片
+                    type: image
+                    options:
+                      media: assets
+                  - name: alt
+                    label: 图片说明
+                    type: string
+                  - name: caption
+                    label: 图片下方说明
+                    type: string
+              - name: galleryLabel
+                label: 图片组说明
+                type: string
+          - name: body
+            label: 正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
+  - name: beichen
+    label: 北辰学习经历
+    type: group
+    items:
+      - name: beichen-intro
+        label: 经历介绍与复盘入口
+        type: file
+        path: src/_data/beichen.json
+        format: json
+        operations:
+          delete: false
+        fields:
+          - name: eyebrow
+            label: 栏目小标题
+            type: string
+          - name: title
+            label: 标题
+            type: string
+          - name: subtitle
+            label: 副标题
+            type: string
+          - name: period
+            label: 时间
+            type: string
+          - name: introduction
+            label: 简介
+            type: text
+          - name: priorPractice
+            label: 其他项目说明
+            type: text
+          - name: reflectionTitle
+            label: 复盘入口标题
+            type: string
+          - name: reflectionSummary
+            label: 复盘入口介绍
+            type: text
+          - name: reflectionHref
+            label: 复盘入口链接
+            type: string
+      - name: beichen-manual
+        label: 个人说明书
+        type: file
+        path: src/content/beichen/manual.md
+        format: json-frontmatter
+        operations:
+          delete: false
+        fields:
+          - name: id
+            label: 固定标识
+            type: string
+            required: true
+            readonly: true
+          - name: tags
+            label: 内容分类
+            type: string
+            list: true
+            hidden: true
+          - name: order
+            label: 展示顺序
+            type: number
+          - name: permalink
+            label: 固定访问地址
+            type: string
+            hidden: true
+          - name: title
+            label: 标题
+            type: string
+          - name: eyebrow
+            label: 栏目小标题
+            type: string
+          - name: summary
+            label: 简述
+            type: text
+          - name: status
+            label: 当前状态
+            type: string
+          - name: coverStyle
+            label: 封面样式
+            type: string
+            hidden: true
+          - name: cover
+            label: 封面图片
+            type: image
+            options:
+              media: assets
+          - name: coverAlt
+            label: 封面说明
+            type: string
+          - name: homeResult
+            label: 首页成果链接
+            type: string
+          - name: result
+            label: 成果入口
+            type: object
+            fields:
+              - name: href
+                label: 链接
+                type: string
+              - name: label
+                label: 显示文字
+                type: string
+              - name: external
+                label: 新窗口打开
+                type: boolean
+              - name: note
+                label: 补充说明
+                type: text
+          - name: facts
+            label: 侧栏资料
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: value
+                label: 内容
+                type: string
+          - name: gallery
+            label: 作品图片
+            type: object
+            list: true
+            fields:
+              - name: alt
+                label: 图片说明
+                type: string
+              - name: src
+                label: 图片
+                type: image
+                options:
+                  media: assets
+              - name: caption
+                label: 图片下方说明
+                type: string
+          - name: body
+            label: 正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
+      - name: beichen-workbench
+        label: 我的大学工作台
+        type: file
+        path: src/content/beichen/workbench.md
+        format: json-frontmatter
+        operations:
+          delete: false
+        fields:
+          - name: id
+            label: 固定标识
+            type: string
+            required: true
+            readonly: true
+          - name: tags
+            label: 内容分类
+            type: string
+            list: true
+            hidden: true
+          - name: order
+            label: 展示顺序
+            type: number
+          - name: permalink
+            label: 固定访问地址
+            type: string
+            hidden: true
+          - name: title
+            label: 标题
+            type: string
+          - name: eyebrow
+            label: 栏目小标题
+            type: string
+          - name: summary
+            label: 简述
+            type: text
+          - name: status
+            label: 当前状态
+            type: string
+          - name: coverStyle
+            label: 封面样式
+            type: string
+            hidden: true
+          - name: cover
+            label: 封面图片
+            type: image
+            options:
+              media: assets
+          - name: coverAlt
+            label: 封面说明
+            type: string
+          - name: homeResult
+            label: 首页成果链接
+            type: string
+          - name: result
+            label: 成果入口
+            type: object
+            fields:
+              - name: href
+                label: 链接
+                type: string
+              - name: label
+                label: 显示文字
+                type: string
+              - name: external
+                label: 新窗口打开
+                type: boolean
+              - name: note
+                label: 补充说明
+                type: text
+          - name: facts
+            label: 侧栏资料
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: value
+                label: 内容
+                type: string
+          - name: gallery
+            label: 作品图片
+            type: object
+            list: true
+            fields:
+              - name: src
+                label: 图片
+                type: image
+                options:
+                  media: assets
+              - name: alt
+                label: 图片说明
+                type: string
+              - name: caption
+                label: 图片下方说明
+                type: string
+          - name: body
+            label: 正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
+      - name: beichen-job-skill
+        label: 求职 AI Skill
+        type: file
+        path: src/content/beichen/job-skill.md
+        format: json-frontmatter
+        operations:
+          delete: false
+        fields:
+          - name: id
+            label: 固定标识
+            type: string
+            required: true
+            readonly: true
+          - name: tags
+            label: 内容分类
+            type: string
+            list: true
+            hidden: true
+          - name: order
+            label: 展示顺序
+            type: number
+          - name: permalink
+            label: 固定访问地址
+            type: string
+            hidden: true
+          - name: title
+            label: 标题
+            type: string
+          - name: eyebrow
+            label: 栏目小标题
+            type: string
+          - name: summary
+            label: 简述
+            type: text
+          - name: status
+            label: 当前状态
+            type: string
+          - name: coverStyle
+            label: 封面样式
+            type: string
+            hidden: true
+          - name: cover
+            label: 封面图片
+            type: string
+          - name: coverAlt
+            label: 封面说明
+            type: string
+          - name: homeResult
+            label: 首页成果链接
+            type: string
+          - name: result
+            label: 成果入口
+            type: object
+            fields:
+              - name: href
+                label: 链接
+                type: string
+              - name: label
+                label: 显示文字
+                type: string
+              - name: external
+                label: 新窗口打开
+                type: boolean
+              - name: note
+                label: 补充说明
+                type: text
+          - name: facts
+            label: 侧栏资料
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: value
+                label: 内容
+                type: string
+          - name: body
+            label: 正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
+      - name: beichen-reflection
+        label: 结营复盘
+        type: file
+        path: src/content/beichen/reflection.md
+        format: json-frontmatter
+        operations:
+          delete: false
+        fields:
+          - name: permalink
+            label: 固定访问地址
+            type: string
+            hidden: true
+          - name: title
+            label: 标题
+            type: string
+          - name: eyebrow
+            label: 栏目小标题
+            type: string
+          - name: summary
+            label: 简述
+            type: text
+          - name: status
+            label: 当前状态
+            type: string
+          - name: facts
+            label: 侧栏资料
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: value
+                label: 内容
+                type: string
+          - name: body
+            label: 正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
+      - name: beichen-skill
+        label: 求职 Skill 原始材料
+        type: file
+        path: src/content/beichen/skill.md
+        format: json-frontmatter
+        operations:
+          delete: false
+        fields:
+          - name: permalink
+            label: 固定访问地址
+            type: string
+            hidden: true
+          - name: facts
+            label: 侧栏资料
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: 显示文字
+                type: string
+              - name: value
+                label: 内容
+                type: string
+          - name: result
+            label: 成果入口
+            type: object
+            fields:
+              - name: href
+                label: 链接
+                type: string
+              - name: note
+                label: 补充说明
+                type: text
+              - name: external
+                label: 新窗口打开
+                type: boolean
+              - name: label
+                label: 显示文字
+                type: string
+          - name: status
+            label: 当前状态
+            type: string
+          - name: title
+            label: 标题
+            type: string
+          - name: summary
+            label: 简述
+            type: text
+          - name: eyebrow
+            label: 栏目小标题
+            type: string
+          - name: body
+            label: 正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
+  - name: explorations
+    label: 探索方向
+    type: file
+    path: src/_data/explorations.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: eyebrow
+        label: 栏目小标题
+        type: string
+      - name: title
+        label: 标题
+        type: string
+      - name: introduction
+        label: 简介
+        type: text
+      - name: items
+        label: 条目
+        type: object
+        list: true
+        fields:
+          - name: icon
+            label: 图标
+            type: string
+          - name: status
+            label: 当前状态
+            type: string
+          - name: statusStyle
+            label: 状态样式
+            type: string
+            hidden: true
+          - name: title
+            label: 标题
+            type: string
+          - name: description
+            label: 介绍
+            type: text
+          - name: future
+            label: 未来方向
+            type: boolean
+  - name: journey
+    label: 个人时间线
+    type: file
+    path: src/_data/journey.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: eyebrow
+        label: 栏目小标题
+        type: string
+      - name: titleLines
+        label: 标题分行
+        type: string
+        list: true
+      - name: timeline
+        label: 时间线
+        type: object
+        list: true
+        fields:
+          - name: year
+            label: 时间
+            type: string
+          - name: title
+            label: 标题
+            type: string
+          - name: description
+            label: 介绍
+            type: text
+          - name: current
+            label: 当前阶段
+            type: boolean
+  - name: cooperation
+    label: 合作意愿
+    type: file
+    path: src/_data/cooperation.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: eyebrow
+        label: 栏目小标题
+        type: string
+      - name: title
+        label: 标题
+        type: string
+      - name: paragraphs
+        label: 段落
+        type: string
+        list: true
+  - name: portfolio_entries
+    label: 新增作品
+    type: collection
+    path: src/content/portfolio
+    format: yaml-frontmatter
+    exclude:
+      - '*.11tydata.js'
+    filename:
+      template: '{id}.md'
+      field: create
+    subfolders: false
+    view:
+      primary: title
+      fields:
+        - title
+        - status
+        - order
+      sort:
+        - title
+        - order
+      default:
+        sort: order
+        order: asc
+    operations:
+      rename: false
+    fields:
+      - name: id
+        label: 固定网址名称
+        type: string
+        required: true
+        pattern:
+          regex: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          message: 使用小写英文字母、数字和短横线，创建后请勿修改。
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: summary
+        label: 简介
+        type: text
+        required: true
+      - name: order
+        label: 展示顺序（小的在前）
+        type: number
+        default: 10
+      - name: eyebrow
+        label: 时间或类别
+        type: string
+      - name: status
+        label: 当前状态
+        type: string
+      - name: cover
+        label: 封面
+        type: image
+        options:
+          media: assets
+      - name: coverAlt
+        label: 封面说明
+        type: string
+      - name: result
+        label: 成果链接（可留空）
+        type: object
+        fields:
+          - name: href
+            label: 链接地址
+            type: string
+          - name: label
+            label: 按钮文字
+            type: string
+            default: 看成果
+          - name: note
+            label: 链接说明
+            type: text
+          - name: external
+            label: 新窗口打开
+            type: boolean
+            default: true
+      - name: body
+        label: 正文
+        type: rich-text
+        options:
+          format: markdown
+          media: assets
+  - name: experience_entries
+    label: 新增经历
+    type: collection
+    path: src/content/experiences
+    format: yaml-frontmatter
+    exclude:
+      - '*.11tydata.js'
+    filename:
+      template: '{id}.md'
+      field: create
+    subfolders: false
+    view:
+      primary: title
+      fields:
+        - title
+        - status
+        - order
+      sort:
+        - title
+        - order
+      default:
+        sort: order
+        order: asc
+    operations:
+      rename: false
+    fields:
+      - name: id
+        label: 固定网址名称
+        type: string
+        required: true
+        pattern:
+          regex: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          message: 使用小写英文字母、数字和短横线，创建后请勿修改。
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: summary
+        label: 简介
+        type: text
+        required: true
+      - name: order
+        label: 展示顺序（小的在前）
+        type: number
+        default: 10
+      - name: eyebrow
+        label: 时间或类别
+        type: string
+      - name: status
+        label: 当前状态
+        type: string
+      - name: works
+        label: 关联新增作品
+        type: reference
+        options:
+          collection: portfolio_entries
+          multiple: true
+          value: '{id}'
+          label: '{title}'
+      - name: body
+        label: 正文
+        type: rich-text
+        options:
+          format: markdown
+          media: assets
+  - name: note_entries
+    label: 复盘与实践文章
+    type: collection
+    path: src/content/notes
+    format: yaml-frontmatter
+    exclude:
+      - '*.11tydata.js'
+    filename:
+      template: '{id}.md'
+      field: create
+    subfolders: false
+    view:
+      primary: title
+      fields:
+        - title
+        - status
+        - order
+      sort:
+        - title
+        - order
+      default:
+        sort: order
+        order: asc
+    operations:
+      rename: false
+    fields:
+      - name: id
+        label: 固定网址名称
+        type: string
+        required: true
+        pattern:
+          regex: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          message: 使用小写英文字母、数字和短横线，创建后请勿修改。
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: summary
+        label: 简介
+        type: text
+        required: true
+      - name: order
+        label: 展示顺序（小的在前）
+        type: number
+        default: 10
+      - name: eyebrow
+        label: 时间或类别
+        type: string
+      - name: status
+        label: 当前状态
+        type: string
+      - name: body
+        label: 正文
+        type: rich-text
+        options:
+          format: markdown
+          media: assets
+actions:
+  - name: publish-site
+    label: 发布网站
+    workflow: publish.yml
+    ref: main
+    confirm:
+      title: 发布这些修改？
+      message: 将已保存的内容更新到公开网站。构建失败时保留上一次发布。
+      button: 发布网站
+settings:
+  content:
+    merge: true

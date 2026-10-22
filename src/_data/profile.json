@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "title": "吴文丽 · Sylvie Wu · AI Explorer",
+    "description": "吴文丽｜AI 探索者。把生活里的真实问题变成小项目，在行动、使用与复盘中寻找自己的方向。",
+    "themeColor": "#f4f0e6"
+  },
+  "brand": "吴文丽 / SYLVIE WU",
+  "navigation": [
+    {
+      "label": "作品",
+      "href": "#projects"
+    },
+    {
+      "label": "经历",
+      "href": "#experience"
+    },
+    {
+      "label": "路径",
+      "href": "#path"
+    },
+    {
+      "label": "探索",
+      "href": "#more"
+    },
+    {
+      "label": "联系",
+      "href": "#contact"
+    }
+  ],
+  "hero": {
+    "name": "吴文丽",
+    "englishName": "Sylvie Wu",
+    "role": "AI 探索者",
+    "titleFirst": "生命是一棵",
+    "titleSecond": "长满可能的树",
+    "titleEnd": "。",
+    "introduction": "我正在学习 Python，也借助 AI 把生活里的想法做成小项目。从化学与教育出发，我开始主动寻找愿意长期投入的方向。",
+    "actions": [
+      {
+        "label": "看我的作品",
+        "href": "#projects",
+        "arrow": "↗"
+      },
+      {
+        "label": "我的来路",
+        "href": "#path",
+        "arrow": "↓"
+      }
+    ],
+    "education": "华中师范大学 · 学科化学硕士在读",
+    "learning": "正在学习 AI / Python，尝试产品实践"
+  },
+  "contact": {
+    "eyebrow": "SAY HELLO",
+    "titleLines": [
+      "下一根枝条，",
+      "也许从一次交流开始。"
+    ],
+    "links": [
+      {
+        "label": "邮箱",
+        "value": "2443724865@qq.com",
+        "href": "mailto:2443724865@qq.com"
+      }
+    ]
+  },
+  "footer": [
+    "SYLVIE WU · 2026",
+    "Built as a living page — still growing."
+  ]
+}

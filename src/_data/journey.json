@@ -1,0 +1,33 @@
+{
+  "eyebrow": "HOW I GOT HERE",
+  "titleLines": [
+    "我一直在认真走路，",
+    "却很少认真选方向。"
+  ],
+  "timeline": [
+    {
+      "year": "2022",
+      "title": "化学（师范）",
+      "description": "沿着一条看起来合适的路开始大学。",
+      "current": false
+    },
+    {
+      "year": "2025.03–06",
+      "title": "中学实习",
+      "description": "和学生聊梦想，也开始重新看自己。",
+      "current": false
+    },
+    {
+      "year": "2025–26",
+      "title": "考研与毕业论文",
+      "description": "一边继续走，一边开始意识到“选择方向”本身也是能力。",
+      "current": false
+    },
+    {
+      "year": "NOW",
+      "title": "主动探索",
+      "description": "AI / 产品 / 阅读 / 科研工作流 / 商业化尝试。",
+      "current": true
+    }
+  ]
+}

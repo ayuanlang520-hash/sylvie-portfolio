@@ -1,0 +1,21 @@
+{
+  "name": "sylvie-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sylvie 个人主页：由内容数据和 Markdown 生成静态页面。",
+  "type": "module",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve --port=8091",
+    "test": "npm run build && node --test tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.7",
+    "js-yaml": "4.3.2",
+    "markdown-it": "14.1.0",
+    "parse5": "8.0.0"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "eyebrow": "MORE BRANCHES ARE GROWING",
+  "title": "还有一些枝条正在生长。",
+  "introduction": "它们现在不一定是“作品”，但已经是我真实在思考、尝试或实践的问题。",
+  "items": [
+    {
+      "icon": "🌱",
+      "status": "产品想法",
+      "statusStyle": "status-idea",
+      "title": "AI 转行探索助手",
+      "description": "从自己的处境出发：如果一个普通人想转向 AI，能不能更清楚地理解岗位、匹配方向、制定学习计划，并一步步走到真实求职？",
+      "future": false
+    },
+    {
+      "icon": "🌿",
+      "status": "探索中",
+      "statusStyle": "status-explore",
+      "title": "AI 商业化实验",
+      "description": "从趣味测试、小店到 AI 带货，我想实际验证：AI 能不能帮助普通人从内容与产品出发，走完一条真实的商业闭环。",
+      "future": false
+    },
+    {
+      "icon": "🍃",
+      "status": "正在实践",
+      "statusStyle": "status-doing",
+      "title": "AI × 科研工作流",
+      "description": "把 AI 放进我的真实研究流程：定时寻找文献、整理研究方向、辅助比较选题，让“找资料”逐渐变成一套可以重复使用的工作流。",
+      "future": false
+    },
+    {
+      "icon": "＋",
+      "status": "新的可能",
+      "statusStyle": "",
+      "title": "下一根枝条，会长向哪里？",
+      "description": "这里故意留白。它不是一个假装存在的项目，而是给之后真正发生的探索留的位置。",
+      "future": true
+    }
+  ]
+}
