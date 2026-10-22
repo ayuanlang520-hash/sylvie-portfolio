@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile, cp, mkdir, mkdtemp, writeFile, rm } from 'node:fs/promises';
+import { readFile, readdir, cp, mkdir, mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import yaml from 'js-yaml';
@@ -58,6 +58,8 @@ test('content saves automatically publish only after checks, and history commits
   assert.equal(workflow.jobs.history.needs, 'deploy');
   const history = entries(config.content).find(entry => entry.name === 'version_history');
   assert.equal(history.format, 'json');
+  const historyExtension = path.extname(history.filename?.template || '{primary}.md');
+  for (const file of await readdir(history.path)) assert.equal(path.extname(file), historyExtension, 'CMS filters collection files by filename extension, independently of format');
   assert.deepEqual(history.operations, { create: false, rename: false, delete: false });
   assert.ok(history.fields.every(field => field.readonly));
   assert.ok(history.actions.some(action => action.scope === 'entry' && action.workflow === 'restore.yml'));

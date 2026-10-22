@@ -9,6 +9,9 @@ content:
     type: collection
     path: history/versions
     format: json
+    filename:
+      template: '{snapshot}.json'
+      field: false
     subfolders: false
     operations:
       create: false
