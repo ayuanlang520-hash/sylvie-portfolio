@@ -3,7 +3,7 @@ permalink: beichen/reflection/index.html
 title: 结营复盘
 eyebrow: 北辰青年 / 回看这段学习
 summary: 说明书的反复调修、工作台的试用修改，还有第三周没做好的电话面试。先把这段经历记下来。
-status: 复盘草稿 · 还在修改 · 走查测试（稍后恢复）
+status: 复盘草稿 · 还在修改
 facts:
   - label: 主要作品
     value: 个人说明书 / 大学工作台 / 求职 Skill
