@@ -9,7 +9,7 @@
       "statusStyle": "status-idea",
       "title": "AI 转行探索助手",
       "description": "从自己的处境出发：如果一个普通人想转向 AI，能不能更清楚地理解岗位、匹配方向、制定学习计划，并一步步走到真实求职？",
-      "future": false
+      "future": true
     },
     {
       "icon": "🌿",
@@ -30,10 +30,9 @@
     {
       "icon": "＋",
       "status": "新的可能",
-      "statusStyle": "",
       "title": "下一根枝条，会长向哪里？",
       "description": "这里故意留白。它不是一个假装存在的项目，而是给之后真正发生的探索留的位置。",
-      "future": true
+      "future": false
     }
   ]
 }
