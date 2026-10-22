@@ -1,53 +1,10 @@
 {
   "items": [
-    {
-      "key": "projects",
-      "title": "作品",
-      "navigationLabel": "作品",
-      "visible": true,
-      "inNavigation": true
-    },
-    {
-      "key": "experience",
-      "title": "北辰经历",
-      "navigationLabel": "经历",
-      "visible": true,
-      "inNavigation": true
-    },
-    {
-      "key": "path",
-      "title": "个人路径",
-      "navigationLabel": "路径",
-      "visible": true,
-      "inNavigation": true
-    },
-    {
-      "key": "more",
-      "title": "探索方向",
-      "navigationLabel": "探索",
-      "visible": true,
-      "inNavigation": true
-    },
-    {
-      "key": "together",
-      "title": "合作意愿",
-      "visible": true,
-      "inNavigation": false
-    },
-    {
-      "key": "contact",
-      "title": "联系方式",
-      "navigationLabel": "联系",
-      "visible": true,
-      "inNavigation": true
-    },
-    {
-      "key": "custom",
-      "id": "qa-walkthrough",
-      "title": "走查临时板块",
-      "navigationLabel": "临时走查😌",
-      "visible": false,
-      "inNavigation": true
-    }
+    {"key":"projects","id":"","title":"作品","navigationLabel":"作品","visible":true,"inNavigation":true,"body":""},
+    {"key":"experience","id":"","title":"北辰经历","navigationLabel":"经历","visible":true,"inNavigation":true,"body":""},
+    {"key":"path","id":"","title":"个人路径","navigationLabel":"路径","visible":true,"inNavigation":true,"body":""},
+    {"key":"more","id":"","title":"探索方向","navigationLabel":"探索","visible":true,"inNavigation":true,"body":""},
+    {"key":"together","id":"","title":"合作意愿","navigationLabel":"","visible":true,"inNavigation":false,"body":""},
+    {"key":"contact","id":"","title":"联系方式","navigationLabel":"联系","visible":true,"inNavigation":true,"body":""}
   ]
 }
