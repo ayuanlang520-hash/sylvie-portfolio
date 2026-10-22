@@ -1,31 +1,19 @@
 ---
-{
-  "permalink": "beichen/reflection/index.html",
-  "title": "结营复盘",
-  "eyebrow": "北辰青年 / 回看这段学习",
-  "summary": "说明书的反复调修、工作台的试用修改，还有第三周没做好的电话面试。先把这段经历记下来。",
-  "status": "复盘草稿 · 还在修改",
-  "facts": [
-    {
-      "label": "主要作品",
-      "value": "个人说明书 / 大学工作台 / 求职 Skill"
-    },
-    {
-      "label": "小组身份",
-      "value": "普通组员"
-    },
-    {
-      "label": "网站时间",
-      "value": "原网站创建于训练营前，本次新增学习经历"
-    },
-    {
-      "label": "文稿状态",
-      "value": "尚非最终提交版"
-    }
-  ]
-}
+permalink: beichen/reflection/index.html
+title: 结营复盘
+eyebrow: 北辰青年 / 回看这段学习
+summary: 说明书的反复调修、工作台的试用修改，还有第三周没做好的电话面试。先把这段经历记下来。
+status: 复盘草稿 · 还在修改 · 走查测试（稍后恢复）
+facts:
+  - label: 主要作品
+    value: 个人说明书 / 大学工作台 / 求职 Skill
+  - label: 小组身份
+    value: 普通组员
+  - label: 网站时间
+    value: 原网站创建于训练营前，本次新增学习经历
+  - label: 文稿状态
+    value: 尚非最终提交版
 ---
-
 ## 回头看这三份作业
 
 个人说明书花的时间最长。很多时间都用在排版、插画和反复调修上，最后的结果我还是挺满意的。
