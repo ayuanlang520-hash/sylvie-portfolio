@@ -1,3 +1,7 @@
+{% set inBeichen = beichenEntry | default(false) %}
+{% set backHref = '../../' %}
+{% set backLabel = '返回个人主页' %}
+{% if inBeichen and sections | sectionEnabled('experience') %}{% set backHref = '../../#experience' %}{% set backLabel = '返回北辰经历' %}{% endif %}
 <!doctype html>
 <html lang="zh-CN">
 <head>
@@ -5,26 +9,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="{{ summary }}" />
   <meta name="theme-color" content="{{ profile.metadata.themeColor }}" />
-  <title>{{ title }} · 吴文丽的北辰实践</title>
+  <title>{{ title }} · {{ profile.hero.name }}的{% if inBeichen %}北辰实践{% else %}个人主页{% endif %}</title>
   <link rel="stylesheet" href="../../styles.css" />
   <link rel="stylesheet" href="../../stage2.css" />
   <link rel="stylesheet" href="../../beichen.css" />
 </head>
 <body class="beichen-detail-page">
   <a class="skip-link" href="#main">跳到正文</a>
-  <header class="site-header"><a class="brand" href="../../"><span class="brand-dot"></span><span>{{ profile.brand }}</span></a><nav class="nav" aria-label="案例导航"><a href="../../{% if sections | sectionEnabled('experience') %}#experience{% endif %}">返回北辰经历 ↗</a></nav></header>
+  <header class="site-header"><a class="brand" href="../../"><span class="brand-dot"></span><span>{{ profile.brand }}</span></a><nav class="nav" aria-label="案例导航"><a href="{{ backHref }}">{{ backLabel }} ↗</a></nav></header>
   <main id="main" class="beichen-document">
-    <nav class="beichen-breadcrumb" aria-label="当前位置"><a href="../../">个人主页</a><span>/</span><a href="../../{% if sections | sectionEnabled('experience') %}#experience{% endif %}">北辰青年</a><span>/</span><span>{{ title }}</span></nav>
+    <nav class="beichen-breadcrumb" aria-label="当前位置"><a href="../../">个人主页</a><span>/</span>{% if inBeichen %}<a href="{{ backHref }}">北辰青年</a><span>/</span>{% endif %}<span>{{ title }}</span></nav>
     <header class="beichen-document-heading"><span class="eyebrow">{{ eyebrow }}</span><h1>{{ title }}</h1><p class="beichen-lead">{{ summary }}</p><p class="beichen-status">{{ status }}</p>
     {% if result and result.href %}<a class="editorial-button" href="{{ result.href | linkHref }}"{% if result.external %} target="_blank" rel="noreferrer"{% endif %}>{{ result.label | default('看成果', true) }} <span aria-hidden="true">↗</span></a><p class="beichen-result-note">{{ result.note | default('') }}</p>{% endif %}</header>
     <div class="beichen-reading-layout">
-      <aside class="beichen-facts"><dl>{% for fact in facts %}<div><dt>{{ fact.label }}</dt><dd>{{ fact.value }}</dd></div>{% endfor %}</dl><a href="../../{% if sections | sectionEnabled('experience') %}#experience{% endif %}">回到三个作品 ↑</a></aside>
+      <aside class="beichen-facts"><dl>{% for fact in facts %}<div><dt>{{ fact.label }}</dt><dd>{{ fact.value }}</dd></div>{% endfor %}</dl><a href="{{ backHref }}">{{ backLabel }} ↑</a></aside>
       <article class="beichen-prose" aria-label="{{ title }}正文">{{ content | safe }}
         {% if gallery %}<section class="beichen-gallery" id="finished-work" aria-label="作品图像">{% for picture in gallery %}<figure><a class="beichen-original-image" href="{{ picture.src | linkHref }}" target="_blank" rel="noreferrer" aria-label="{{ picture.alt }}：打开原图"><img src="{{ picture.src | linkHref }}" alt="{{ picture.alt }}" loading="lazy" /></a><figcaption>{{ picture.caption }} · 点击图片查看原图</figcaption></figure>{% endfor %}</section>{% endif %}
       </article>
     </div>
-    <nav class="beichen-related" aria-label="继续阅读"><span>继续看看</span>{% for item in collections.caseStudies %}{% if item.data.title != title %}<a href="../../beichen/{{ item.data.id }}/">{{ item.data.title }} ↗</a>{% endif %}{% endfor %}{% if title != '结营复盘' %}<a href="../../beichen/reflection/">结营复盘 ↗</a>{% endif %}</nav>
+    {% if inBeichen %}<nav class="beichen-related" aria-label="继续阅读"><span>继续看看</span>{% for item in collections.caseStudies %}{% if item.url != page.url %}<a href="../../beichen/{{ item.data.id }}/">{{ item.data.title }} ↗</a>{% endif %}{% endfor %}{% if page.url != '/beichen/reflection/' %}{% for item in collections.all %}{% if item.url == '/beichen/reflection/' %}<a href="../../beichen/reflection/">{{ item.data.title }} ↗</a>{% endif %}{% endfor %}{% endif %}</nav>{% endif %}
   </main>
-  <footer class="footer"><span>{{ profile.brand }}</span><a href="../../{% if sections | sectionEnabled('experience') %}#experience{% endif %}">返回个人主页</a><a href="https://app.pagescms.org/ayuanlang520-hash/sylvie-portfolio/main" target="_blank" rel="noreferrer">编辑网站 ↗</a></footer>
+  <footer class="footer"><span>{{ profile.brand }}</span><a href="{{ backHref }}">返回个人主页</a><a href="https://app.pagescms.org/ayuanlang520-hash/sylvie-portfolio/main" target="_blank" rel="noreferrer">编辑网站 ↗</a></footer>
 </body>
 </html>

@@ -35,6 +35,10 @@ test('CMS exposes existing text, rich text and media with Chinese labels and pre
   }
   assert.ok(editors.find(entry => entry.path === 'src/content/beichen/manual.md').fields.some(field => field.name === 'body' && field.type === 'rich-text'));
   assert.equal(config.media[0].input, 'assets');
+  for (const editor of editors.filter(entry => entry.type === 'collection')) {
+    assert.equal(editor.filename.field, false, 'Do not ask the editor to maintain a second filename alongside the fixed URL');
+    assert.equal(editor.filename.template, '{id}.md');
+  }
   assert.equal(config.actions.find(action => action.name === 'publish-site').workflow, 'publish.yml');
   for (const action of config.actions) {
     const workflow = yaml.load(await readFile(`.github/workflows/${action.workflow}`, 'utf8'));
@@ -73,7 +77,11 @@ test('CMS-shaped new works, experience references, articles and media render und
   for (const file of ['src', 'assets', 'lib', 'eleventy.config.js', 'styles.css', 'stage2.css', 'beichen.css', 'script.js', '.nojekyll']) {
     await cp(file, path.join(directory, file), { recursive: true });
   }
-  const metadata = { id: 'cms-example', title: '自己添加的作品', summary: '正文与标题由我修改。', order: 1, cover: '/assets/yueji-home-mobile.png', result: { href: '', label: '', note: '' } };
+  const metadata = { id: 'cms-example', title: '自己添加的作品', summary: '正文与标题由我修改。', order: 1, cover: '/assets/yueji-home-mobile.png', result: { href: 'https://example.com/sylvie', label: '打开我的演示', note: '', external: true } };
+  const profilePath = path.join(directory, 'src/_data/profile.json');
+  const profile = JSON.parse(await readFile(profilePath, 'utf8'));
+  profile.hero.name = '走查姓名';
+  await writeFile(profilePath, JSON.stringify(profile));
   await writeFile(path.join(directory, 'src/content/portfolio/cms-example.md'), `---\n${yaml.dump(metadata)}---\n\n## 修改后的正文\n\n![中文图片说明](/assets/yueji-home-mobile.png)\n`);
   await writeFile(path.join(directory, 'src/content/experiences/cms-example.md'), `---\n${yaml.dump({ id: 'cms-example', title: '新增经历验收', summary: '关联作品', works: ['cms-example'] })}---\n\n经历正文。\n`);
   await writeFile(path.join(directory, 'src/content/notes/cms-example.md'), `---\n${yaml.dump({ id: 'cms-example', title: '新增复盘验收', summary: '文章简介' })}---\n\n文章正文。\n`);
@@ -81,9 +89,12 @@ test('CMS-shaped new works, experience references, articles and media render und
   const html = await readFile(path.join(directory, 'output/projects/cms-example/index.html'), 'utf8');
   assert.ok(html.includes('修改后的正文'));
   assert.ok(html.includes('src="../../assets/yueji-home-mobile.png?v='));
+  assert.ok(html.includes('<title>自己添加的作品 · 走查姓名的个人主页</title>'));
+  assert.ok(!html.includes('返回北辰经历'));
   const home = await readFile(path.join(directory, 'output/index.html'), 'utf8');
   for (const title of ['自己添加的作品', '新增经历验收', '新增复盘验收']) assert.ok(home.includes(title));
   assert.ok(home.includes('href="projects/cms-example/"'));
+  assert.match(home, /href="https:\/\/example\.com\/sylvie" target="_blank" rel="noreferrer">打开我的演示/);
   assert.ok((await readFile(path.join(directory, 'output/experiences/cms-example/index.html'), 'utf8')).includes('经历正文'));
   const sectionsFile = path.join(directory, 'src/_data/sections.json');
   const sections = JSON.parse(await readFile(sectionsFile, 'utf8'));

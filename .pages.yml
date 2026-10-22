@@ -1218,7 +1218,7 @@ content:
       - '*.11tydata.js'
     filename:
       template: '{id}.md'
-      field: create
+      field: false
     subfolders: false
     view:
       primary: title
@@ -1301,7 +1301,7 @@ content:
       - '*.11tydata.js'
     filename:
       template: '{id}.md'
-      field: create
+      field: false
     subfolders: false
     view:
       primary: title
@@ -1366,7 +1366,7 @@ content:
       - '*.11tydata.js'
     filename:
       template: '{id}.md'
-      field: create
+      field: false
     subfolders: false
     view:
       primary: title
