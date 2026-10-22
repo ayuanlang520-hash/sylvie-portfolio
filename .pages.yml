@@ -4,6 +4,69 @@ media:
     input: assets
     output: /assets
 content:
+  - name: home-sections
+    label: 首页板块与导航
+    type: file
+    path: src/_data/sections.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: items
+        label: 首页板块
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: '{title}'
+        fields:
+          - name: key
+            label: 板块类型
+            type: select
+            required: true
+            options:
+              values:
+                - name: custom
+                  label: 自定义文字板块
+                - name: projects
+                  label: 已有作品区
+                - name: experience
+                  label: 北辰学习经历
+                - name: more
+                  label: 探索方向
+                - name: path
+                  label: 个人路径
+                - name: together
+                  label: 合作意愿
+                - name: contact
+                  label: 联系方式
+          - name: id
+            label: 自定义板块的网址名称
+            type: string
+            description: 仅自定义板块需要填写：使用小写字母、数字或短横线，创建后保持不变。
+          - name: title
+            label: 板块名称
+            type: string
+            required: true
+            description: 自定义板块用作页面标题；已有板块用作管理名称，页面标题在对应内容表单中修改。
+          - name: navigationLabel
+            label: 导航文字
+            type: string
+            description: 留空时使用板块名称。
+          - name: visible
+            label: 显示这个板块
+            type: boolean
+            default: true
+          - name: inNavigation
+            label: 加入首页导航
+            type: boolean
+            default: true
+          - name: body
+            label: 自定义板块正文
+            type: rich-text
+            options:
+              format: markdown
+              media: assets
   - name: profile
     label: 个人介绍与联系方式
     type: file
@@ -28,17 +91,6 @@ content:
       - name: brand
         label: 页首姓名
         type: string
-      - name: navigation
-        label: 导航
-        type: object
-        list: true
-        fields:
-          - name: label
-            label: 显示文字
-            type: string
-          - name: href
-            label: 链接
-            type: string
       - name: hero
         label: 首页介绍
         type: object
@@ -1363,6 +1415,14 @@ content:
           format: markdown
           media: assets
 actions:
+  - name: check-content
+    label: 检查并生成预览（不发布）
+    workflow: check.yml
+    ref: main
+    confirm:
+      title: 检查已保存的内容？
+      message: 检查文字、链接和页面能否生成，并提供可下载预览。不会修改公开网站。
+      button: 开始检查
   - name: publish-site
     label: 发布网站
     workflow: publish.yml
@@ -1371,6 +1431,27 @@ actions:
       title: 发布这些修改？
       message: 将已保存的内容更新到公开网站。构建失败时保留上一次发布。
       button: 发布网站
+  - name: backup-content
+    label: 创建备份
+    workflow: backup.yml
+    ref: main
+    confirm:
+      title: 创建一次内容备份？
+      message: 保留当前已保存的内容版本，并生成可下载的源文件压缩包。不会发布网站。
+      button: 创建备份
+  - name: restore-content
+    label: 恢复内容
+    workflow: restore.yml
+    ref: main
+    confirm:
+      title: 从备份恢复内容？
+      message: 会覆盖已保存的文字、作品、板块和图片。恢复前会另存当前版本，不会立即发布。
+      button: 恢复内容
+    fields:
+      - name: version
+        label: 备份版本（留空使用最近一次）
+        type: text
+        required: false
 settings:
   content:
     merge: true

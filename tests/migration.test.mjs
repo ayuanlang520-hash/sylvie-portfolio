@@ -8,7 +8,6 @@ import { parse } from 'parse5';
 import yaml from 'js-yaml';
 
 const root = process.cwd();
-const source = await readFile('index.html', 'utf8');
 const built = await readFile('_site/index.html', 'utf8');
 const document = parse(built);
 const attr = (node, key) => node.attrs?.find(item => item.name === key)?.value;
@@ -17,40 +16,6 @@ function all(node, predicate) {
 }
 const text = node => node.nodeName === '#text' ? node.value : (node.childNodes ?? []).map(text).join('');
 const hash = content => createHash('sha256').update(content).digest('hex');
-function canonical(node) {
-  if (node.nodeName === '#comment') return null;
-  if (node.nodeName === '#text') return node.value.replace(/\s+/g, ' ').trim() || null;
-  return {
-    tag: node.tagName ?? node.nodeName,
-    attrs: (node.attrs ?? []).map(item => [item.name, item.value]).sort(([a], [b]) => a.localeCompare(b)),
-    children: (node.childNodes ?? []).map(canonical).filter(item => item !== null),
-  };
-}
-function mismatch(first, second, at = 'document') {
-  if (typeof first !== typeof second) return `${at}: node type changed`;
-  if (typeof first === 'string') return first === second ? undefined : `${at}: ${JSON.stringify(first)} != ${JSON.stringify(second)}`;
-  if (first.tag !== second.tag) return `${at}: ${first.tag} != ${second.tag}`;
-  if (JSON.stringify(first.attrs) !== JSON.stringify(second.attrs)) return `${at}/${first.tag}: attributes changed`;
-  if (first.children.length !== second.children.length) return `${at}/${first.tag}: ${first.children.length} != ${second.children.length} child nodes`;
-  for (let index = 0; index < first.children.length; index++) {
-    const result = mismatch(first.children[index], second.children[index], `${at}/${first.tag}[${index}]`);
-    if (result) return result;
-  }
-}
-
-test('original homepage sections remain unchanged after adding the experience section and navigation', () => {
-  const previous = parse(source);
-  const current = parse(built);
-  for (const id of ['intro', 'top', 'projects', 'more', 'path', 'together', 'contact']) {
-    const find = doc => all(doc, node => attr(node, 'id') === id)[0];
-    assert.ok(find(previous) && find(current), `Missing original section: ${id}`);
-    assert.equal(mismatch(canonical(find(previous)), canonical(find(current))), undefined, id);
-  }
-  const originalLinks = all(previous, node => node.tagName === 'nav').flatMap(node => all(node, item => item.tagName === 'a')).map(node => attr(node, 'href'));
-  const currentLinks = all(current, node => node.tagName === 'nav').flatMap(node => all(node, item => item.tagName === 'a')).map(node => attr(node, 'href'));
-  for (const href of originalLinks) assert.ok(currentLinks.includes(href), `Missing original navigation: ${href}`);
-});
-
 test('local media, links, anchors and accessibility references resolve', async () => {
   const nodes = all(document, node => Boolean(node.tagName));
   const ids = nodes.map(node => attr(node, 'id')).filter(Boolean);
@@ -94,6 +59,7 @@ async function fixture(t) {
   const directory = await mkdtemp(path.join(verificationRoot, 'content-check-'));
   await cp('src', path.join(directory, 'src'), { recursive: true });
   await cp('eleventy.config.js', path.join(directory, 'eleventy.config.js'));
+  await cp('lib', path.join(directory, 'lib'), { recursive: true });
   for (const asset of ['assets', 'styles.css', 'stage2.css', 'beichen.css', 'script.js', '.nojekyll']) {
     await cp(asset, path.join(directory, asset), { recursive: true });
   }

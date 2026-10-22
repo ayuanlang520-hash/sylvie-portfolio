@@ -1,0 +1,10 @@
+{
+  "items": [
+    {"key":"projects","id":"","title":"作品","navigationLabel":"作品","visible":true,"inNavigation":true,"body":""},
+    {"key":"experience","id":"","title":"北辰经历","navigationLabel":"经历","visible":true,"inNavigation":true,"body":""},
+    {"key":"path","id":"","title":"个人路径","navigationLabel":"路径","visible":true,"inNavigation":true,"body":""},
+    {"key":"more","id":"","title":"探索方向","navigationLabel":"探索","visible":true,"inNavigation":true,"body":""},
+    {"key":"together","id":"","title":"合作意愿","navigationLabel":"","visible":true,"inNavigation":false,"body":""},
+    {"key":"contact","id":"","title":"联系方式","navigationLabel":"联系","visible":true,"inNavigation":true,"body":""}
+  ]
+}

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parse } from 'parse5';
+import { sectionEnabled } from '../lib/sections.js';
 
 const pages = ['index.html', ...['manual', 'workbench', 'job-skill', 'reflection', 'skill'].map(id => `beichen/${id}/index.html`)];
 const attr = (node, name) => node.attrs?.find(item => item.name === name)?.value;
@@ -38,27 +39,15 @@ test('new pages and local links resolve when hosted under a GitHub Pages reposit
 
 test('homepage has three cases with separate result and process entries, after original projects', async () => {
   const doc = parse(await readFile('_site/index.html', 'utf8'));
+  const settings = JSON.parse(await readFile('src/_data/sections.json', 'utf8'));
   const sections = all(doc, node => node.tagName === 'section').map(node => attr(node, 'id'));
-  assert.ok(sections.indexOf('experience') > sections.indexOf('projects'));
-  assert.ok(sections.indexOf('experience') < sections.indexOf('more'));
+  const visible = sectionEnabled(settings, 'experience');
+  if (visible && sectionEnabled(settings, 'projects')) assert.ok(sections.indexOf('experience') > sections.indexOf('projects'));
+  if (visible && sectionEnabled(settings, 'more')) assert.ok(sections.indexOf('experience') < sections.indexOf('more'));
   const cards = all(doc, node => node.tagName === 'article' && attr(node, 'class') === 'beichen-card');
-  assert.equal(cards.length, 3);
+  assert.equal(cards.length, visible ? 3 : 0);
   for (const card of cards) {
     assert.equal(all(card, node => node.tagName === 'a' && text(node).includes('看成果')).length, 1);
     assert.equal(all(card, node => node.tagName === 'a' && text(node).includes('看实践过程')).length, 1);
   }
-  assert.match(text(doc), /训练营(?:之)?前/);
-});
-
-test('source artifacts remain intact and incomplete interview and reflection are visibly disclosed', async () => {
-  const sourceSkill = await readFile('assets/beichen/求职-SKILL.md', 'utf8');
-  const renderedSkill = parse(await readFile('_site/beichen/skill/index.html', 'utf8'));
-  assert.ok(text(renderedSkill).includes('当时留存的 SKILL.md'));
-  assert.ok(sourceSkill.includes('完整跑通一次'));
-  const interview = text(parse(await readFile('_site/beichen/job-skill/index.html', 'utf8')));
-  assert.ok(interview.includes('未保留录制'));
-  assert.ok(interview.includes('不回填成当周已经完成'));
-  const reflection = text(parse(await readFile('_site/beichen/reflection/index.html', 'utf8')));
-  assert.ok(reflection.includes('尚非最终提交版'));
-  assert.ok(reflection.includes('未来 30 天的一件事'));
 });

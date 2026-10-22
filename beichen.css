@@ -94,3 +94,15 @@
 }
 @media (max-width: 359px) { .site-header { padding-inline: 12px; }.brand { font-size: 9px; }.nav { gap: 8px; }.nav a { font-size: 12px; } }
 @media (prefers-reduced-motion: reduce) { .beichen-cover img { transition: none; } }
+
+.custom-section { scroll-margin-top: 110px; }
+.preview-notice { width: min(1120px, calc(100% - 40px)); margin: 16px auto 0; font-size: 13px; color: var(--muted); }
+.preview-notice a { text-underline-offset: 4px; }
+.site-header .nav { max-width: 70%; overflow-x: auto; padding-bottom: 6px; }
+.site-header .nav a { flex-shrink: 0; }
+@media (max-width: 720px) {
+  .site-header { height: auto; min-height: 64px; padding-block: 10px; flex-wrap: wrap; }
+  .site-header .nav { width: 100%; max-width: 100%; gap: 22px; }
+  .site-header .nav a:nth-child(3), .site-header .nav a[href="#more"] { display: inline-flex; }
+  .beichen, .section, .beichen-gallery { scroll-margin-top: 116px; }
+}

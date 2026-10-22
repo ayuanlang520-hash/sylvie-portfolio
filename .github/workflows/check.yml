@@ -1,0 +1,29 @@
+name: 检查内容并生成预览
+on:
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: Pages CMS context
+        required: false
+        type: string
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-fund --no-audit
+      - run: npm test
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-preview
+          path: _site/
+          retention-days: 7
+      - run: printf '%s\n' '检查通过。可在 Artifacts 下载 site-preview 查看生成页面。公开网站没有更新。' >> "$GITHUB_STEP_SUMMARY"

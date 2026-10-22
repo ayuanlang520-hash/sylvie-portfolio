@@ -62,3 +62,14 @@ document.querySelector('[data-open-prompt-forest]')?.addEventListener('click', (
   const detail = document.getElementById('prompt-forest-detail');
   if (detail) detail.open = true;
 });
+
+function openLinkedDetail() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  const target = document.getElementById(id);
+  if (target?.tagName === 'DETAILS') target.open = true;
+}
+openLinkedDetail();
+window.addEventListener('hashchange', openLinkedDetail);
+
+const previewNotice = document.getElementById('previewNotice');
+if (previewNotice && ['127.0.0.1', 'localhost'].includes(location.hostname)) previewNotice.hidden = false;

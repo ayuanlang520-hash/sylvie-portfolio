@@ -1,11 +1,21 @@
 import MarkdownIt from 'markdown-it';
 import path from 'node:path';
+import { readFileSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { sectionId, sectionEnabled, sectionNavigation, anchorVisible } from './lib/sections.js';
 
 const markdown = new MarkdownIt({ html: false, linkify: false, typographer: false });
 
 export default function (eleventyConfig) {
+  const assetHashes = new Map();
+  eleventyConfig.on('eleventy.before', () => assetHashes.clear());
   eleventyConfig.setNunjucksEnvironmentOptions({ autoescape: true, throwOnUndefined: true });
   eleventyConfig.setLibrary('md', markdown);
+  eleventyConfig.addFilter('sectionId', sectionId);
+  eleventyConfig.addFilter('sectionEnabled', sectionEnabled);
+  eleventyConfig.addFilter('sectionNavigation', sectionNavigation);
+  eleventyConfig.addFilter('anchorVisible', anchorVisible);
+  eleventyConfig.addFilter('markdownContent', value => markdown.render(value || ''));
   eleventyConfig.addFilter('detailSections', html => html.trim().split(/(?=<h4>)/)
     .filter(Boolean).map(section => `<div>${section.trim()}</div>`).join('\n'));
   eleventyConfig.addFilter('linkHref', value => {
@@ -35,7 +45,14 @@ export default function (eleventyConfig) {
     if (typeof this.page.outputPath !== 'string' || !this.page.outputPath.endsWith('.html')) return content;
     const pageDirectory = this.page.url.endsWith('/') ? this.page.url : path.posix.dirname(this.page.url);
     const relativeAssets = path.posix.relative(pageDirectory, '/assets');
-    return content.replace(/\b(href|src|poster)="\/?assets\/([^\"]+)"/g, (_, attribute, file) => `${attribute}="${relativeAssets}/${file}"`);
+    const relative = content.replace(/\b(href|src|poster)="\/?assets\/([^\"]+)"/g, (_, attribute, file) => `${attribute}="${relativeAssets}/${file}"`);
+    return relative.replace(/\b(href|src|poster)="([^\"]+)"/g, (match, attribute, url) => {
+      if (/^(?:https?:|mailto:|#)/.test(url) || url.includes('?')) return match;
+      const file = decodeURIComponent(url.replace(/^(?:\.\.\/)+/, '').replace(/^\//, ''));
+      if (!/\.(?:css|js|png|jpe?g|webp|svg|pdf|md|mp4)$/.test(file) || !existsSync(file)) return match;
+      if (!assetHashes.has(file)) assetHashes.set(file, createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 12));
+      return `${attribute}="${url}?v=${assetHashes.get(file)}"`;
+    }).replace(/<a\b([^>]*\bhref="(?:\.\.\/)*assets\/[^\"]+\.pdf(?:\?[^\"]*)?"[^>]*)>/g, '<a$1 download>');
   });
   for (const path of ['assets', 'styles.css', 'stage2.css', 'beichen.css', 'script.js', '.nojekyll']) {
     eleventyConfig.addPassthroughCopy({ [path]: path });

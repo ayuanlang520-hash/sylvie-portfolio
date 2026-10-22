@@ -35,7 +35,12 @@ test('CMS exposes existing text, rich text and media with Chinese labels and pre
   }
   assert.ok(editors.find(entry => entry.path === 'src/content/beichen/manual.md').fields.some(field => field.name === 'body' && field.type === 'rich-text'));
   assert.equal(config.media[0].input, 'assets');
-  assert.equal(config.actions[0].workflow, 'publish.yml');
+  assert.equal(config.actions.find(action => action.name === 'publish-site').workflow, 'publish.yml');
+  for (const action of config.actions) {
+    const workflow = yaml.load(await readFile(`.github/workflows/${action.workflow}`, 'utf8'));
+    assert.deepEqual(Object.keys(workflow.on), ['workflow_dispatch']);
+    assert.ok(workflow.on.workflow_dispatch.inputs.payload);
+  }
 });
 
 test('publishing workflow has only a manual trigger and deploys only after checks pass', async () => {
@@ -65,7 +70,7 @@ test('CMS-shaped new works, experience references, articles and media render und
     assert.ok(relative && !relative.startsWith('..') && !path.isAbsolute(relative));
     await rm(directory, { recursive: true, force: true });
   });
-  for (const file of ['src', 'assets', 'eleventy.config.js', 'styles.css', 'stage2.css', 'beichen.css', 'script.js', '.nojekyll']) {
+  for (const file of ['src', 'assets', 'lib', 'eleventy.config.js', 'styles.css', 'stage2.css', 'beichen.css', 'script.js', '.nojekyll']) {
     await cp(file, path.join(directory, file), { recursive: true });
   }
   const metadata = { id: 'cms-example', title: '自己添加的作品', summary: '正文与标题由我修改。', order: 1, cover: '/assets/yueji-home-mobile.png', result: { href: '', label: '', note: '' } };
@@ -75,9 +80,27 @@ test('CMS-shaped new works, experience references, articles and media render und
   execFileSync(process.execPath, [path.join(root, 'node_modules/@11ty/eleventy/cmd.cjs'), '--output', 'output', '--quiet'], { cwd: directory, stdio: 'pipe' });
   const html = await readFile(path.join(directory, 'output/projects/cms-example/index.html'), 'utf8');
   assert.ok(html.includes('修改后的正文'));
-  assert.ok(html.includes('src="../../assets/yueji-home-mobile.png"'));
+  assert.ok(html.includes('src="../../assets/yueji-home-mobile.png?v='));
   const home = await readFile(path.join(directory, 'output/index.html'), 'utf8');
   for (const title of ['自己添加的作品', '新增经历验收', '新增复盘验收']) assert.ok(home.includes(title));
   assert.ok(home.includes('href="projects/cms-example/"'));
   assert.ok((await readFile(path.join(directory, 'output/experiences/cms-example/index.html'), 'utf8')).includes('经历正文'));
+  const sectionsFile = path.join(directory, 'src/_data/sections.json');
+  const sections = JSON.parse(await readFile(sectionsFile, 'utf8'));
+  sections.items.push({ key: 'custom', id: 'qa-notes', title: '自定义板块验收', navigationLabel: '新板块', visible: true, inNavigation: true, body: '真正保存的自定义正文。' });
+  await writeFile(sectionsFile, JSON.stringify(sections));
+  const build = () => execFileSync(process.execPath, [path.join(root, 'node_modules/@11ty/eleventy/cmd.cjs'), '--output', 'output', '--quiet'], { cwd: directory, stdio: 'pipe' });
+  build();
+  const added = await readFile(path.join(directory, 'output/index.html'), 'utf8');
+  assert.ok(added.includes('href="#section-qa-notes"'));
+  assert.ok(added.includes('真正保存的自定义正文。'));
+  sections.items.find(item => item.key === 'projects').visible = false;
+  sections.items = sections.items.filter(item => item.id !== 'qa-notes' && item.key !== 'more');
+  await writeFile(sectionsFile, JSON.stringify(sections));
+  build();
+  const removed = await readFile(path.join(directory, 'output/index.html'), 'utf8');
+  for (const target of ['projects', 'more', 'section-qa-notes']) {
+    assert.ok(!removed.includes(`href="#${target}"`), `Dead navigation after section removal: ${target}`);
+    assert.ok(!removed.includes(`id="${target}"`));
+  }
 });

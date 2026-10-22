@@ -17,19 +17,21 @@
   {% include "intro.njk" %}
   <header class="site-header" id="siteHeader">
     <a class="brand" href="#top" aria-label="返回顶部"><span class="brand-dot"></span><span>{{ profile.brand }}</span></a>
-    <nav class="nav" aria-label="主导航">{% for action in profile.navigation %}<a href="{{ action.href | linkHref }}">{{ action.label }}</a>{% endfor %}</nav>
+    <nav class="nav" aria-label="主导航">{% for action in sections | sectionNavigation %}<a href="{{ action.href | linkHref }}">{{ action.label }}</a>{% endfor %}</nav>
   </header>
   <main id="main">
+    <p class="preview-notice" id="previewNotice" hidden>这是本地预览，不会自动同步后台保存的内容。<a href="https://ayuanlang520-hash.github.io/sylvie-portfolio/" target="_blank" rel="noreferrer">打开公开网站</a> · <a href="https://app.pagescms.org/ayuanlang520-hash/sylvie-portfolio/main" target="_blank" rel="noreferrer">编辑网站</a></p>
     <section class="section personal-hero" id="top" aria-labelledby="heroTitle">
       <div class="hero-identity"><span>{{ profile.hero.name }} <i>/</i> {{ profile.hero.englishName }}</span><span>{{ profile.hero.role }}</span></div>
       <h1 id="heroTitle"><span>{{ profile.hero.titleFirst }}</span><span class="hero-growing">{{ profile.hero.titleSecond }}<span class="hero-period">{{ profile.hero.titleEnd }}</span></span></h1>
       <div class="hero-bottom">
         <p class="hero-introduction">{{ profile.hero.introduction }}</p>
-        <div class="hero-wayfinding">{% for action in profile.hero.actions %}<a class="{% if loop.first %}editorial-button{% else %}editorial-link{% endif %}" href="{{ action.href | linkHref }}">{{ action.label }} <span aria-hidden="true">{{ action.arrow }}</span></a>{% endfor %}</div>
+        <div class="hero-wayfinding">{% for action in profile.hero.actions %}{% if action.href | anchorVisible(sections) %}<a class="{% if loop.first %}editorial-button{% else %}editorial-link{% endif %}" href="{{ action.href | linkHref }}">{{ action.label }} <span aria-hidden="true">{{ action.arrow }}</span></a>{% endif %}{% endfor %}</div>
       </div>
       <p class="hero-education">{{ profile.hero.education }}<span>{{ profile.hero.learning }}</span></p>
     </section>
 
+    {% if sections | sectionEnabled('projects') %}
     <section class="section projects" id="projects">
       <article class="planet-feature" aria-labelledby="planetTitle">
         <div class="planet-heading">
@@ -58,16 +60,22 @@
       {% if collections.portfolioEntries.length %}<div class="project-grid cms-projects">{% for entry in collections.portfolioEntries %}<article class="project-card"><div class="beichen-cover">{% if entry.data.cover %}<img src="{{ entry.data.cover | linkHref }}" alt="{{ entry.data.coverAlt }}" loading="lazy" />{% endif %}</div><div class="project-card-body"><span class="status">{{ entry.data.status }}</span><h3>{{ entry.data.title }}</h3><p>{{ entry.data.summary }}</p><div class="beichen-actions">{% if entry.data.result and entry.data.result.href %}<a href="{{ entry.data.result.href | linkHref }}">看成果 ↗</a>{% endif %}<a href="projects/{{ entry.data.id }}/">看实践过程 →</a></div></div></article>{% endfor %}</div>{% endif %}
       {% for project in collections.projects %}{% if not project.data.featured %}{{ detail(project) }}{% endif %}{% endfor %}
     </section>
+    {% endif %}
 
-    {% include "beichen-section.njk" %}
+    {% if sections | sectionEnabled('experience') %}{% include "beichen-section.njk" %}{% endif %}
     {% if collections.experienceEntries.length %}<section class="section"><div class="section-heading"><h2>其他经历</h2></div>{% for entry in collections.experienceEntries %}<article class="beichen-reflection"><div><span class="eyebrow">{{ entry.data.eyebrow }}</span><h3><a href="experiences/{{ entry.data.id }}/">{{ entry.data.title }}</a></h3><p>{{ entry.data.summary }}</p>{% for projectId in entry.data.works %}{% for work in collections.portfolioEntries %}{% if work.data.id == projectId %}<a class="editorial-link" href="projects/{{ work.data.id }}/">{{ work.data.title }} ↗</a>{% endif %}{% endfor %}{% for work in collections.caseStudies %}{% if work.data.id == projectId %}<a class="editorial-link" href="beichen/{{ work.data.id }}/">{{ work.data.title }} ↗</a>{% endif %}{% endfor %}{% endfor %}</div></article>{% endfor %}</section>{% endif %}
     {% if collections.noteEntries.length %}<section class="section"><div class="section-heading"><h2>实践记录</h2></div>{% for entry in collections.noteEntries %}<a class="beichen-reflection" href="notes/{{ entry.data.id }}/"><div><h3>{{ entry.data.title }}</h3><p>{{ entry.data.summary }}</p></div><span aria-hidden="true">↗</span></a>{% endfor %}</section>{% endif %}
 
+    {% for item in sections.items %}{% if item.key == 'custom' and item.visible != false %}<section class="section custom-section" id="{{ item | sectionId }}"><div class="section-heading"><h2>{{ item.title }}</h2></div><div class="beichen-prose">{{ item.body | markdownContent | safe }}</div></section>{% endif %}{% endfor %}
+
+    {% if sections | sectionEnabled('more') %}
     <section class="section more" id="more">
       <div class="section-heading reveal"><span class="eyebrow">{{ explorations.eyebrow }}</span><h2>{{ explorations.title }}</h2><p>{{ explorations.introduction }}</p></div>
       <div class="branch-list">{% for item in explorations.items %}<article class="branch-card reveal{% if item.future %} future-card{% endif %}"><span class="branch-icon">{{ item.icon }}</span><div><span class="status{% if item.statusStyle %} {{ item.statusStyle }}{% endif %}">{{ item.status }}</span><h3>{{ item.title }}</h3><p>{{ item.description }}</p></div></article>{% endfor %}</div>
     </section>
+    {% endif %}
 
+    {% if sections | sectionEnabled('path') %}
     <section class="section path" id="path">
       <div class="section-heading reveal"><span class="eyebrow">{{ journey.eyebrow }}</span><h2>{{ journey.titleLines[0] }}<br>{{ journey.titleLines[1] }}</h2></div>
       <div class="path-layout">
@@ -75,15 +83,20 @@
         <div class="timeline reveal" aria-label="个人路径时间线">{% for item in journey.timeline %}<div class="timeline-item{% if item.current %} current{% endif %}"><span class="year">{{ item.year }}</span><div><strong>{{ item.title }}</strong><p>{{ item.description }}</p></div></div>{% endfor %}</div>
       </div>
     </section>
+    {% endif %}
 
+    {% if sections | sectionEnabled('together') %}
     <section class="section together" id="together">
       <div class="together-card reveal"><span class="eyebrow">{{ cooperation.eyebrow }}</span><h2>{{ cooperation.title }}</h2>{% for paragraph in cooperation.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}<div class="tiny-tree" aria-hidden="true">↳ 🌱 ─── 🌿 ─── ●</div></div>
     </section>
+    {% endif %}
+    {% if sections | sectionEnabled('contact') %}
     <section class="section contact" id="contact">
       <div class="contact-wrap reveal"><div><span class="eyebrow">{{ profile.contact.eyebrow }}</span><h2>{{ profile.contact.titleLines[0] }}<br>{{ profile.contact.titleLines[1] }}</h2></div><div class="contact-links">{% for item in profile.contact.links %}<a href="{{ item.href | linkHref }}"><span>{{ item.label }}</span><strong>{{ item.value }}</strong><i>↗</i></a>{% endfor %}</div></div>
     </section>
+    {% endif %}
   </main>
-  <footer class="footer">{% for item in profile.footer %}<span>{{ item }}</span>{% endfor %}</footer>
+  <footer class="footer">{% for item in profile.footer %}<span>{{ item }}</span>{% endfor %}<a href="https://app.pagescms.org/ayuanlang520-hash/sylvie-portfolio/main" target="_blank" rel="noreferrer">编辑网站 ↗</a></footer>
   <script src="script.js"></script>
 </body>
 </html>

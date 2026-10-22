@@ -1,0 +1,32 @@
+name: 创建内容备份
+on:
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: Pages CMS context
+        required: false
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: content-version-operations
+  cancel-in-progress: false
+jobs:
+  backup:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/content-versions.mjs backup --push
+      - uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-backup
+          path: .backup-output/
+          include-hidden-files: true
+          retention-days: 90
