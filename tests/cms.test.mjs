@@ -25,6 +25,14 @@ test('CMS exposes existing text, rich text and media with Chinese labels and pre
   for (const file of ['src/_data/profile.json', 'src/content/beichen/manual.md', 'src/content/beichen/reflection.md']) {
     assert.ok(editors.some(entry => entry.path === file));
   }
+  for (const editor of editors.filter(entry => entry.path?.endsWith('.md'))) {
+    assert.equal(editor.format, 'yaml-frontmatter', 'Markdown with --- delimiters must use the YAML frontmatter reader');
+    const source = await readFile(editor.path, 'utf8');
+    const match = source.match(/^---\r?\n([\s\S]+?)\r?\n---\r?\n/);
+    assert.ok(match, `${editor.path}: missing --- delimiters`);
+    const metadata = yaml.load(match[1]);
+    if (editor.fields.some(field => field.name === 'title')) assert.ok(metadata.title, `${editor.path}: title must parse as metadata`);
+  }
   assert.ok(editors.find(entry => entry.path === 'src/content/beichen/manual.md').fields.some(field => field.name === 'body' && field.type === 'rich-text'));
   assert.equal(config.media[0].input, 'assets');
   assert.equal(config.actions[0].workflow, 'publish.yml');

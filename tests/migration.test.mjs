@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { parse } from 'parse5';
+import yaml from 'js-yaml';
 
 const root = process.cwd();
 const source = await readFile('index.html', 'utf8');
@@ -116,9 +117,9 @@ function buildFixture(directory) {
 async function updateProject(file, update, bodySuffix = '') {
   const content = await readFile(file, 'utf8');
   const match = content.match(/^---\r?\n([\s\S]+?)\r?\n---\r?\n([\s\S]*)$/);
-  const data = JSON.parse(match[1]);
+  const data = yaml.load(match[1]);
   update(data);
-  await writeFile(file, `---\n${JSON.stringify(data, null, 2)}\n---\n${match[2]}${bodySuffix}`, 'utf8');
+  await writeFile(file, `---\n${yaml.dump(data)}---\n${match[2]}${bodySuffix}`, 'utf8');
 }
 
 test('editing an isolated data and Markdown copy updates the page without executing content', async t => {

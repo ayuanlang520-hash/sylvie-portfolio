@@ -152,7 +152,7 @@ content:
         label: 灵感星球
         type: file
         path: src/content/projects/inspiration-planet.md
-        format: json-frontmatter
+        format: yaml-frontmatter
         operations:
           delete: false
         fields:
@@ -282,7 +282,7 @@ content:
         label: 阅迹
         type: file
         path: src/content/projects/yueji.md
-        format: json-frontmatter
+        format: yaml-frontmatter
         operations:
           delete: false
         fields:
@@ -409,7 +409,7 @@ content:
         label: 喵学园
         type: file
         path: src/content/projects/miaoxueyuan.md
-        format: json-frontmatter
+        format: yaml-frontmatter
         operations:
           delete: false
         fields:
@@ -536,7 +536,7 @@ content:
         label: Prompt Forest · 提示词收藏
         type: file
         path: src/content/projects/prompt-forest.md
-        format: json-frontmatter
+        format: yaml-frontmatter
         operations:
           delete: false
         fields:
@@ -687,7 +687,7 @@ content:
         label: 个人说明书
         type: file
         path: src/content/beichen/manual.md
-        format: json-frontmatter
+        format: yaml-frontmatter
         operations:
           delete: false
         fields:
@@ -788,7 +788,7 @@ content:
         label: 我的大学工作台
         type: file
         path: src/content/beichen/workbench.md
-        format: json-frontmatter
+        format: yaml-frontmatter
         operations:
           delete: false
         fields:
@@ -889,7 +889,7 @@ content:
         label: 求职 AI Skill
         type: file
         path: src/content/beichen/job-skill.md
-        format: json-frontmatter
+        format: yaml-frontmatter
         operations:
           delete: false
         fields:
@@ -972,7 +972,7 @@ content:
         label: 结营复盘
         type: file
         path: src/content/beichen/reflection.md
-        format: json-frontmatter
+        format: yaml-frontmatter
         operations:
           delete: false
         fields:
@@ -1013,7 +1013,7 @@ content:
         label: 求职 Skill 原始材料
         type: file
         path: src/content/beichen/skill.md
-        format: json-frontmatter
+        format: yaml-frontmatter
         operations:
           delete: false
         fields:
