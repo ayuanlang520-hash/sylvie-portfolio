@@ -77,6 +77,13 @@ test('CMS-shaped new works, experience references, articles and media render und
   for (const file of ['src', 'assets', 'lib', 'eleventy.config.js', 'styles.css', 'stage2.css', 'beichen.css', 'script.js', '.nojekyll']) {
     await cp(file, path.join(directory, file), { recursive: true });
   }
+  const manualPath = path.join(directory, 'src/content/beichen/manual.md');
+  const manualSource = await readFile(manualPath, 'utf8');
+  const frontmatter = manualSource.match(/^---\r?\n([\s\S]+?)\r?\n---\r?\n/);
+  const manualData = yaml.load(frontmatter[1]);
+  for (const field of ['coverAlt', 'status', 'eyebrow']) delete manualData[field];
+  delete manualData.facts[0].value;
+  await writeFile(manualPath, `---\n${yaml.dump(manualData)}---\n${manualSource.slice(frontmatter[0].length)}`);
   const metadata = { id: 'cms-example', title: '自己添加的作品', summary: '正文与标题由我修改。', order: 1, cover: '/assets/yueji-home-mobile.png', result: { href: 'https://example.com/sylvie', label: '打开我的演示', note: '', external: true } };
   const profilePath = path.join(directory, 'src/_data/profile.json');
   const profile = JSON.parse(await readFile(profilePath, 'utf8'));
@@ -92,6 +99,7 @@ test('CMS-shaped new works, experience references, articles and media render und
   assert.ok(html.includes('<title>自己添加的作品 · 走查姓名的个人主页</title>'));
   assert.ok(!html.includes('返回北辰经历'));
   const home = await readFile(path.join(directory, 'output/index.html'), 'utf8');
+  assert.ok(home.includes('alt="个人说明书"'), 'CMS may omit empty optional fields; use the case title as a cover description');
   for (const title of ['自己添加的作品', '新增经历验收', '新增复盘验收']) assert.ok(home.includes(title));
   assert.ok(home.includes('href="projects/cms-example/"'));
   assert.match(home, /href="https:\/\/example\.com\/sylvie" target="_blank" rel="noreferrer">打开我的演示/);

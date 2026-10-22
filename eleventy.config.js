@@ -9,7 +9,7 @@ const markdown = new MarkdownIt({ html: false, linkify: false, typographer: fals
 export default function (eleventyConfig) {
   const assetHashes = new Map();
   eleventyConfig.on('eleventy.before', () => assetHashes.clear());
-  eleventyConfig.setNunjucksEnvironmentOptions({ autoescape: true, throwOnUndefined: true });
+  eleventyConfig.setNunjucksEnvironmentOptions({ autoescape: true, throwOnUndefined: false });
   eleventyConfig.setLibrary('md', markdown);
   eleventyConfig.addFilter('sectionId', sectionId);
   eleventyConfig.addFilter('sectionEnabled', sectionEnabled);
