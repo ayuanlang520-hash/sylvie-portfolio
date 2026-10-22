@@ -240,7 +240,7 @@ content:
             type: object
             fields:
               - name: src
-                label: 图片
+                label: 视频文件
                 type: file
                 options:
                   media: assets
@@ -980,7 +980,9 @@ content:
             hidden: true
           - name: cover
             label: 封面图片
-            type: string
+            type: image
+            options:
+              media: assets
           - name: coverAlt
             label: 封面说明
             type: string
@@ -1159,6 +1161,7 @@ content:
           - name: future
             label: 未来方向
             type: boolean
+            description: 使用未来占位卡片样式，不隐藏条目，也不自动修改“当前状态”文字。
   - name: journey
     label: 个人时间线
     type: file
@@ -1191,6 +1194,7 @@ content:
           - name: current
             label: 当前阶段
             type: boolean
+            description: 高亮这一条时间线。其他条目不会自动取消，可自行取消旧阶段的勾选。
   - name: cooperation
     label: 合作意愿
     type: file
