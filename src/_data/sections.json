@@ -46,7 +46,7 @@
       "id": "qa-walkthrough",
       "title": "走查临时板块",
       "navigationLabel": "临时走查😌",
-      "visible": true,
+      "visible": false,
       "inNavigation": true
     }
   ]
