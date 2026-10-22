@@ -58,6 +58,8 @@ test('content saves automatically publish only after checks, and history commits
   assert.equal(workflow.jobs.history.needs, 'deploy');
   const history = entries(config.content).find(entry => entry.name === 'version_history');
   assert.equal(history.format, 'json');
+  assert.ok(history.view.fields.includes(history.view.default.sort), 'CMS can only sort columns included in the collection view');
+  assert.equal(history.view.default.order, 'desc');
   const historyExtension = path.extname(history.filename?.template || '{primary}.md');
   for (const file of await readdir(history.path)) assert.equal(path.extname(file), historyExtension, 'CMS filters collection files by filename extension, independently of format');
   assert.deepEqual(history.operations, { create: false, rename: false, delete: false });

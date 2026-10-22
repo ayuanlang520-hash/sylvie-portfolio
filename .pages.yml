@@ -19,7 +19,7 @@ content:
       delete: false
     view:
       primary: title
-      fields: [title, kind, description]
+      fields: [title, kind, description, createdAt]
       sort: [createdAt]
       default:
         sort: createdAt
