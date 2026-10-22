@@ -24,6 +24,7 @@
     <div class="beichen-reading-layout">
       <aside class="beichen-facts"><dl>{% for fact in facts %}<div><dt>{{ fact.label }}</dt><dd>{{ fact.value }}</dd></div>{% endfor %}</dl><a href="{{ backHref }}">{{ backLabel }} ↑</a></aside>
       <article class="beichen-prose" aria-label="{{ title }}正文">{{ content | safe }}
+        {% if works | default([]) | length %}<section aria-label="关联作品"><h2>关联作品</h2><ul>{% for projectId in works %}{% for work in collections.portfolioEntries %}{% if work.data.id == projectId %}<li><a href="../../projects/{{ work.data.id }}/">{{ work.data.title }} ↗</a></li>{% endif %}{% endfor %}{% for work in collections.caseStudies %}{% if work.data.id == projectId %}<li><a href="../../beichen/{{ work.data.id }}/">{{ work.data.title }} ↗</a></li>{% endif %}{% endfor %}{% endfor %}</ul></section>{% endif %}
         {% if gallery %}<section class="beichen-gallery" id="finished-work" aria-label="作品图像">{% for picture in gallery %}<figure><a class="beichen-original-image" href="{{ picture.src | linkHref }}" target="_blank" rel="noreferrer" aria-label="{{ picture.alt }}：打开原图"><img src="{{ picture.src | linkHref }}" alt="{{ picture.alt }}" loading="lazy" /></a><figcaption>{{ picture.caption }} · 点击图片查看原图</figcaption></figure>{% endfor %}</section>{% endif %}
       </article>
     </div>

@@ -1346,6 +1346,7 @@ content:
       - name: works
         label: 关联新增作品
         type: reference
+        description: 可多选。选好后点击下拉框外收起，再保存；作品会同时显示在首页经历卡片和经历详情中。
         options:
           collection: portfolio_entries
           multiple: true

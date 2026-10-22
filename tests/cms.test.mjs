@@ -95,7 +95,9 @@ test('CMS-shaped new works, experience references, articles and media render und
   for (const title of ['自己添加的作品', '新增经历验收', '新增复盘验收']) assert.ok(home.includes(title));
   assert.ok(home.includes('href="projects/cms-example/"'));
   assert.match(home, /href="https:\/\/example\.com\/sylvie" target="_blank" rel="noreferrer">打开我的演示/);
-  assert.ok((await readFile(path.join(directory, 'output/experiences/cms-example/index.html'), 'utf8')).includes('经历正文'));
+  const experienceHtml = await readFile(path.join(directory, 'output/experiences/cms-example/index.html'), 'utf8');
+  assert.ok(experienceHtml.includes('经历正文'));
+  assert.ok(experienceHtml.includes('href="../../projects/cms-example/"'));
   const sectionsFile = path.join(directory, 'src/_data/sections.json');
   const sections = JSON.parse(await readFile(sectionsFile, 'utf8'));
   sections.items.push({ key: 'custom', id: 'qa-notes', title: '自定义板块验收', navigationLabel: '新板块', visible: true, inNavigation: true, body: '真正保存的自定义正文。' });
