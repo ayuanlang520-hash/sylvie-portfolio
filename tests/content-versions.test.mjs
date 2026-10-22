@@ -4,6 +4,7 @@ import { mkdir, mkdtemp, readFile, writeFile, rm, stat } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { createBackup, restoreContent } from '../scripts/content-versions.mjs';
+import { createVersionRecord, versionFromPayload } from '../scripts/version-history.mjs';
 
 async function repository(t) {
   const parent = path.resolve('tests/fixtures');
@@ -61,4 +62,31 @@ test('restore refuses missing backups and uncommitted changes without overwritin
   await writeFile(path.join(root, 'src/_data/profile.json'), '尚未保存的内容');
   assert.throws(() => restoreContent(root), /未提交修改/);
   assert.equal(await readFile(path.join(root, 'src/_data/profile.json'), 'utf8'), '尚未保存的内容');
+});
+
+test('CMS history actions restore the selected stored version, preserving history and current generator rules', async t => {
+  const { root, git } = await repository(t);
+  const snapshot = git('rev-parse', 'HEAD');
+  const record = createVersionRecord(root, { snapshot, kind: 'published', now: new Date('2026-10-22T00:00:00Z') });
+  await mkdir(path.join(root, 'history/versions'), { recursive: true });
+  await writeFile(path.join(root, 'history/versions/example.json'), JSON.stringify(record));
+  await writeFile(path.join(root, 'src/_data/profile.json'), '{"name":"误改后"}');
+  await writeFile(path.join(root, 'src/content/article.11tydata.json'), '{"layout":"当前规则"}');
+  git('add', '.'); git('commit', '-m', 'Save a history record and edited content');
+  const payload = { action: { name: 'restore-history-version' }, context: { type: 'entry', name: 'version_history', path: 'history/versions/example.json', data: { snapshot: 'do-not-trust-browser-fields' } } };
+  assert.equal(versionFromPayload(root, payload), snapshot);
+  const restored = restoreContent(root, versionFromPayload(root, payload));
+  assert.equal(restored.changed, true);
+  assert.equal(await readFile(path.join(root, 'src/_data/profile.json'), 'utf8'), '{"name":"备份前"}');
+  assert.equal(await readFile(path.join(root, 'src/content/article.11tydata.json'), 'utf8'), '{"layout":"当前规则"}');
+  assert.equal(JSON.parse(await readFile(path.join(root, 'history/versions/example.json'), 'utf8')).snapshot, snapshot);
+  assert.ok(record.title.includes('发布成功'));
+  assert.ok(record.title.includes('8:00:00'));
+});
+
+test('history recovery rejects missing context and path traversal instead of falling back to another backup', async t => {
+  const { root } = await repository(t);
+  assert.throws(() => versionFromPayload(root, { action: { name: 'restore-history-version' } }), /停止恢复/);
+  assert.throws(() => versionFromPayload(root, { context: { type: 'entry', name: 'version_history', path: 'history/versions/../../profile.json' } }), /停止恢复/);
+  assert.equal(versionFromPayload(root, { inputs: { version: 'backup/content-example' } }), 'backup/content-example');
 });

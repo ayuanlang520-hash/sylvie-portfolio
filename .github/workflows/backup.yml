@@ -24,6 +24,8 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/content-versions.mjs backup --push
+        env:
+          GH_TOKEN: ${{ github.token }}
       - uses: actions/upload-artifact@v4
         with:
           name: portfolio-backup

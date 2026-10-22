@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdirSync, writeFileSync, appendFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { recordRemoteVersion, versionFromPayload } from './version-history.mjs';
 
 const contentPaths = ['src/_data', 'src/content', 'assets', ':(glob,exclude)src/content/**/*.11tydata.*'];
 function git(root, ...args) { return execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim(); }
@@ -33,11 +34,11 @@ export function restoreContent(root, requested = 'latest', date = new Date()) {
   git(root, 'cat-file', '-e', `${target}:src/_data/profile.json`);
   const before = git(root, 'rev-parse', 'HEAD');
   git(root, 'restore', `--source=${target}`, '--staged', '--worktree', '--', ...contentPaths);
-  if (!git(root, 'diff', '--cached', '--name-only')) return { ref, target, changed: false, safetyTag: null };
+  if (!git(root, 'diff', '--cached', '--name-only')) return { ref, target, before, changed: false, safetyTag: null };
   const safetyTag = `safety/content-before-restore-${stamp(date)}`;
   git(root, 'tag', safetyTag, before);
   git(root, 'commit', '-m', `Restore website content from ${ref}`);
-  return { ref, target, changed: true, safetyTag };
+  return { ref, target, before, changed: true, safetyTag };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -46,16 +47,22 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   let result;
   if (operation === 'backup') {
     result = createBackup(root);
-    if (process.argv.includes('--push')) git(root, 'push', 'origin', `refs/tags/${result.tag}`);
+    if (process.argv.includes('--push')) {
+      git(root, 'push', 'origin', `refs/tags/${result.tag}`);
+      recordRemoteVersion(root, { snapshot: result.sha, kind: 'backup', description: `手动保存的内容备份：${result.tag}` });
+    }
   } else if (operation === 'restore') {
     const payload = JSON.parse(process.env.CMS_PAYLOAD || '{}');
-    result = restoreContent(root, payload.inputs?.version || 'latest');
-    if (process.argv.includes('--push') && result.changed) git(root, 'push', '--atomic', 'origin', 'HEAD:main', `refs/tags/${result.safetyTag}`);
+    result = restoreContent(root, versionFromPayload(root, payload));
+    if (process.argv.includes('--push') && result.changed) {
+      git(root, 'push', '--atomic', 'origin', 'HEAD:main', `refs/tags/${result.safetyTag}`);
+      recordRemoteVersion(root, { snapshot: result.before, kind: 'before-restore', description: '恢复操作前自动留下的内容，可用于撤销本次恢复。' });
+    }
   } else throw new Error('请选择 backup 或 restore。');
   if (process.env.GITHUB_STEP_SUMMARY) {
     const summary = operation === 'backup'
       ? `## 备份已创建\n\n版本：\`${result.tag}\`\n\n在本次运行的 Artifacts 中下载 portfolio-backup，内含网站源文件压缩包和版本说明。\n\n备份没有发布网站。\n`
-      : `## 内容${result.changed ? '已恢复' : '与备份一致，无需修改'}\n\n恢复版本：\`${result.ref}\`\n\n文字、作品、板块和图片已读回。程序和发布设置保持当前版本。\n\n${result.safetyTag ? `恢复前内容另存于 \`${result.safetyTag}\`。\n\n` : ''}公开网站尚未更新，请核对内容后再发布。\n`;
+      : `## 内容${result.changed ? '已恢复' : '与备份一致，无需修改'}\n\n恢复版本：\`${result.ref}\`\n\n文字、作品、板块和图片已读回。程序和发布设置保持当前版本。\n\n${result.safetyTag ? `恢复前内容另存于 \`${result.safetyTag}\`，也可在后台历史版本找到。\n\n` : ''}下一步会自动检查并发布，请查看发布任务的结果。\n`;
     appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary);
   }
   console.log(JSON.stringify(result));

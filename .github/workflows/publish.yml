@@ -1,5 +1,17 @@
 name: 发布个人网站
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'assets/**'
+      - 'lib/**'
+      - 'scripts/**'
+      - '*.css'
+      - 'script.js'
+      - 'eleventy.config.js'
+      - 'package*.json'
+      - '.github/workflows/publish.yml'
   workflow_dispatch:
     inputs:
       payload:
@@ -42,3 +54,20 @@ jobs:
       - name: 发布
         id: deployment
         uses: actions/deploy-pages@v4
+  history:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 保存成功发布的历史版本
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/version-history.mjs published "$GITHUB_SHA"

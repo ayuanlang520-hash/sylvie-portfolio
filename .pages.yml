@@ -4,6 +4,56 @@ media:
     input: assets
     output: /assets
 content:
+  - name: version_history
+    label: 历史版本与回退
+    type: collection
+    path: history/versions
+    format: json
+    subfolders: false
+    operations:
+      create: false
+      rename: false
+      delete: false
+    view:
+      primary: title
+      fields: [title, kind, description]
+      sort: [createdAt]
+      default:
+        sort: createdAt
+        order: desc
+    fields:
+      - name: title
+        label: 版本时间与类型
+        type: string
+        readonly: true
+        description: 时间按 UTC+8 显示。点击页面上方“恢复这个版本并发布”可回到此版本。
+      - name: kind
+        label: 版本类型
+        type: string
+        readonly: true
+      - name: description
+        label: 版本说明
+        type: text
+        readonly: true
+      - name: createdAt
+        label: 记录时间（UTC）
+        type: string
+        readonly: true
+      - name: snapshot
+        label: 内容版本编号（自动记录）
+        type: string
+        readonly: true
+    actions:
+      - name: restore-history-version
+        label: 恢复这个版本并发布
+        scope: entry
+        workflow: restore.yml
+        ref: main
+        cancelable: false
+        confirm:
+          title: 恢复到这个历史版本？
+          message: 会恢复全站文字、作品、板块和素材，并自动检查和发布。恢复前会另留当前内容的安全版本，程序修复会保留。
+          button: 确认恢复并发布
   - name: home-sections
     label: 首页板块与导航
     type: file
@@ -1429,13 +1479,13 @@ actions:
       message: 检查文字、链接和页面能否生成，并提供可下载预览。不会修改公开网站。
       button: 开始检查
   - name: publish-site
-    label: 发布网站
+    label: 重新发布当前内容
     workflow: publish.yml
     ref: main
     confirm:
       title: 发布这些修改？
-      message: 将已保存的内容更新到公开网站。构建失败时保留上一次发布。
-      button: 发布网站
+      message: 保存内容已会自动发布。此按钮可手动重新运行发布；检查失败时仍保留上一次成功的公开页面。
+      button: 重新发布
   - name: backup-content
     label: 创建备份
     workflow: backup.yml
@@ -1445,12 +1495,12 @@ actions:
       message: 保留当前已保存的内容版本，并生成可下载的源文件压缩包。不会发布网站。
       button: 创建备份
   - name: restore-content
-    label: 恢复内容
+    label: 按备份编号恢复（高级）
     workflow: restore.yml
     ref: main
     confirm:
       title: 从备份恢复内容？
-      message: 会覆盖已保存的文字、作品、板块和图片。恢复前会另存当前版本，不会立即发布。
+      message: 会覆盖已保存的文字、作品、板块和图片，随后自动检查和发布。恢复前会另存当前版本；通常可直接在“历史版本与回退”选择记录恢复。
       button: 恢复内容
     fields:
       - name: version

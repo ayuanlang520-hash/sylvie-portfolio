@@ -35,25 +35,35 @@ test('CMS exposes existing text, rich text and media with Chinese labels and pre
   }
   assert.ok(editors.find(entry => entry.path === 'src/content/beichen/manual.md').fields.some(field => field.name === 'body' && field.type === 'rich-text'));
   assert.equal(config.media[0].input, 'assets');
-  for (const editor of editors.filter(entry => entry.type === 'collection')) {
+  for (const editor of editors.filter(entry => entry.type === 'collection' && entry.operations?.create !== false)) {
     assert.equal(editor.filename.field, false, 'Do not ask the editor to maintain a second filename alongside the fixed URL');
     assert.equal(editor.filename.template, '{id}.md');
   }
   assert.equal(config.actions.find(action => action.name === 'publish-site').workflow, 'publish.yml');
   for (const action of config.actions) {
     const workflow = yaml.load(await readFile(`.github/workflows/${action.workflow}`, 'utf8'));
-    assert.deepEqual(Object.keys(workflow.on), ['workflow_dispatch']);
     assert.ok(workflow.on.workflow_dispatch.inputs.payload);
   }
 });
 
-test('publishing workflow has only a manual trigger and deploys only after checks pass', async () => {
+test('content saves automatically publish only after checks, and history commits do not trigger another release', async () => {
   const workflow = yaml.load(await readFile('.github/workflows/publish.yml', 'utf8'));
-  assert.deepEqual(Object.keys(workflow.on), ['workflow_dispatch']);
+  assert.deepEqual(workflow.on.push.branches, ['main']);
+  for (const contentPath of ['src/**', 'assets/**']) assert.ok(workflow.on.push.paths.includes(contentPath));
+  assert.ok(!workflow.on.push.paths.includes('history/**'));
   assert.ok(workflow.on.workflow_dispatch.inputs.payload);
   assert.equal(workflow.jobs.deploy.needs, 'build');
   assert.ok(workflow.jobs.build.steps.some(step => step.run === 'npm test'));
   assert.equal(workflow.jobs.build.steps.find(step => step.uses?.startsWith('actions/upload-pages-artifact@')).with.path, '_site');
+  assert.equal(workflow.jobs.history.needs, 'deploy');
+  const history = entries(config.content).find(entry => entry.name === 'version_history');
+  assert.equal(history.format, 'json');
+  assert.deepEqual(history.operations, { create: false, rename: false, delete: false });
+  assert.ok(history.fields.every(field => field.readonly));
+  assert.ok(history.actions.some(action => action.scope === 'entry' && action.workflow === 'restore.yml'));
+  const restore = yaml.load(await readFile('.github/workflows/restore.yml', 'utf8'));
+  assert.equal(restore.permissions.actions, 'write');
+  assert.ok(restore.jobs.restore.steps.some(step => step.run?.includes('publish.yml/dispatches')));
 });
 
 test('high-resolution manual pages provide a direct original image link', async () => {

@@ -8,6 +8,7 @@ on:
         type: string
 permissions:
   contents: write
+  actions: write
 concurrency:
   group: content-version-operations
   cancel-in-progress: false
@@ -26,7 +27,12 @@ jobs:
       - name: 恢复内容并保留恢复前版本
         env:
           CMS_PAYLOAD: ${{ inputs.payload }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           node scripts/content-versions.mjs restore --push
+      - name: 自动检查并重新发布恢复后的内容
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/actions/workflows/publish.yml/dispatches" -f ref=main
