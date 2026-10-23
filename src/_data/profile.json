@@ -34,7 +34,7 @@
     "titleFirst": "生命是一棵",
     "titleSecond": "长满可能的树",
     "titleEnd": "。",
-    "introduction": "我正在学习 Python，也借助 AI 把生活里的想法做成小项目。从化学与教育出发，我开始主动寻找愿意长期投入的方向。",
+    "introduction": "我是Sylvie，正在学习借助 AI 把生活里的想法做成小项目~",
     "actions": [
       {
         "label": "看我的作品",
@@ -53,14 +53,18 @@
   "contact": {
     "eyebrow": "SAY HELLO",
     "titleLines": [
-      "下一根枝条，",
-      "也许从一次交流开始。"
+      "下一根枝条",
+      "也许从一次交流开始"
     ],
     "links": [
       {
         "label": "邮箱",
         "value": "2443724865@qq.com",
         "href": "mailto:2443724865@qq.com"
+      },
+      {
+        "label": "微信",
+        "value": "fh0920521"
       }
     ]
   },
