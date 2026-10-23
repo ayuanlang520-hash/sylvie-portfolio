@@ -437,7 +437,7 @@ img, video { display: block; max-width: 100%; }
 .contact-wrap { display:grid; grid-template-columns:.95fr 1.05fr; gap:60px; align-items:end; }
 .contact h2 { font-size:clamp(38px,4.8vw,68px); line-height:1.1; margin:14px 0 0; }
 .contact-links { border-top:1px solid var(--line); }
-.contact-links a { display:grid; grid-template-columns:100px 1fr 32px; gap:14px; align-items:center; min-height:82px; border-bottom:1px solid var(--line); text-decoration:none; }
+.contact-links .contact-item { display:grid; grid-template-columns:100px 1fr 32px; gap:14px; align-items:center; min-height:82px; border-bottom:1px solid var(--line); text-decoration:none; }
 .contact-links span { font-size:11px; font-weight:800; color:var(--green-2); }
 .contact-links strong { font-size:15px; font-weight:600; overflow-wrap:anywhere; }
 .contact-links i { font-style:normal; justify-self:end; }
@@ -483,7 +483,7 @@ img, video { display: block; max-width: 100%; }
   .branch-card { grid-template-columns:44px 1fr; padding:20px; }
   .branch-icon { width:44px; height:44px; border-radius:13px; }
   .story { font-size:18px; }
-  .contact-links a { grid-template-columns:72px 1fr 24px; }
+  .contact-links .contact-item { grid-template-columns:72px 1fr 24px; }
   .footer { width:calc(100% - 30px); gap:16px; flex-direction:column; }
   .growth-stage { width:min(94vw, 455px); transform:translateY(12px); }
   .intro-skip { top:16px; right:16px; }

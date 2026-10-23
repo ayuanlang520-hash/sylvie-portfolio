@@ -107,6 +107,44 @@ test('editing an isolated data and Markdown copy updates the page without execut
   assert.equal(hash(await readFile('src/_data/profile.json')), originalProfile, 'Test must leave actual content untouched');
 });
 
+test('contacts without links render as text while valid contacts remain clickable', async t => {
+  const originalProfile = hash(await readFile('src/_data/profile.json'));
+  const directory = await fixture(t);
+  const profileFile = path.join(directory, 'src/_data/profile.json');
+  const profile = JSON.parse(await readFile(profileFile, 'utf8'));
+  profile.contact.links = [
+    { label: '微信', value: 'wechat-example' },
+    { label: '其他联系方式', value: 'plain-example', href: '' },
+    { label: '邮箱', value: 'hello@example.com', href: 'mailto:hello@example.com' },
+    { label: '个人网站', value: 'example.com', href: 'https://example.com/' },
+  ];
+  await writeFile(profileFile, JSON.stringify(profile), 'utf8');
+  buildFixture(directory);
+  const document = parse(await readFile(path.join(directory, 'output/index.html'), 'utf8'));
+  const contact = all(document, node => attr(node, 'id') === 'contact')[0];
+  const anchors = all(contact, node => node.tagName === 'a');
+  assert.deepEqual(anchors.map(node => attr(node, 'href')), ['mailto:hello@example.com', 'https://example.com/']);
+  for (const value of ['wechat-example', 'plain-example']) {
+    const row = all(contact, node => node.tagName === 'div' && attr(node, 'class') === 'contact-item' && text(node).includes(value))[0];
+    assert.ok(row, `${value} must remain visible as a non-clickable contact row`);
+    assert.equal(all(row, node => node.tagName === 'i').length, 0, 'Plain contacts must not suggest a jump');
+  }
+  assert.equal(hash(await readFile('src/_data/profile.json')), originalProfile, 'Test must preserve real profile edits');
+});
+
+test('unsafe contact links still fail the build', async t => {
+  const directory = await fixture(t);
+  const profileFile = path.join(directory, 'src/_data/profile.json');
+  const profile = JSON.parse(await readFile(profileFile, 'utf8'));
+  profile.contact.links = [{ label: '危险链接', value: 'not-clickable', href: 'javascript:alert(1)' }];
+  await writeFile(profileFile, JSON.stringify(profile), 'utf8');
+  assert.throws(() => buildFixture(directory), error => {
+    assert.equal(error.status, 1);
+    assert.match(String(error.stdout) + String(error.stderr), /Error in Nunjucks Filter `linkHref`/);
+    return true;
+  });
+});
+
 test('an unsafe content link fails the build and leaves the current generated site untouched', async t => {
   const originalOutput = hash(await readFile('_site/index.html'));
   const directory = await fixture(t);

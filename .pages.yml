@@ -212,8 +212,9 @@ content:
                 label: 内容
                 type: string
               - name: href
-                label: 链接
+                label: 链接地址（可留空）
                 type: string
+                description: 留空时只展示文字，例如微信号；填写链接后可点击跳转。
       - name: footer
         label: 页脚
         type: string

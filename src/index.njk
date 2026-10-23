@@ -92,7 +92,7 @@
     {% endif %}
     {% if sections | sectionEnabled('contact') %}
     <section class="section contact" id="contact">
-      <div class="contact-wrap reveal"><div><span class="eyebrow">{{ profile.contact.eyebrow }}</span><h2>{{ profile.contact.titleLines[0] }}<br>{{ profile.contact.titleLines[1] }}</h2></div><div class="contact-links">{% for item in profile.contact.links %}<a href="{{ item.href | linkHref }}"><span>{{ item.label }}</span><strong>{{ item.value }}</strong><i>↗</i></a>{% endfor %}</div></div>
+      <div class="contact-wrap reveal"><div><span class="eyebrow">{{ profile.contact.eyebrow }}</span><h2>{{ profile.contact.titleLines[0] }}<br>{{ profile.contact.titleLines[1] }}</h2></div><div class="contact-links">{% for item in profile.contact.links %}{% if item.href %}<a class="contact-item" href="{{ item.href | linkHref }}"><span>{{ item.label }}</span><strong>{{ item.value }}</strong><i>↗</i></a>{% else %}<div class="contact-item"><span>{{ item.label }}</span><strong>{{ item.value }}</strong></div>{% endif %}{% endfor %}</div></div>
     </section>
     {% endif %}
   </main>
