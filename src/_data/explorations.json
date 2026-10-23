@@ -30,9 +30,8 @@
     {
       "icon": "＋",
       "status": "新的可能",
-      "statusStyle": "",
       "title": "下一根枝条，会长向哪里？",
-      "description": "这里故意留白。它不是一个假装存在的项目，而是给之后真正发生的探索留的位置。",
+      "description": "给之后真正发生的探索留的位置",
       "future": true
     }
   ]
