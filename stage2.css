@@ -98,7 +98,7 @@
 .yueji-detail[open] summary span { transform: rotate(45deg); }
 .yueji-detail-content { padding: 4px 0 48px; }
 .yueji-detail-text { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 56px; }
-.yueji-detail-text h4 { font-size: 17px; margin: 0 0 8px; }
+.yueji-detail-text h4 { font-size: 17px; font-weight: 700; margin: 0 0 8px; }
 .yueji-detail-text p { font-size: 16px; line-height: 1.8; margin: 0; color: #465249; }
 .yueji-detail-text .yueji-detail-note { grid-column: 1 / -1; padding-top: 14px; border-top: 1px solid #d7dcd2; font-size: 14px; }
 .yueji-detail-links { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 30px; }

@@ -36,7 +36,11 @@
   <div class="{{ item.id }}-detail-content">
   {% if item.id == 'yueji' %}
     <div class="yueji-detail-text">
+      {% if item.detail.sections is defined %}
+      {% for section in item.detail.sections %}<div class="yueji-section">{% if section.title %}<h4>{{ section.title }}</h4>{% endif %}{{ section.body | markdownContent | safe }}</div>{% endfor %}
+      {% else %}
       {{ project.templateContent | detailSections | safe }}
+      {% endif %}
       <p class="yueji-detail-note">{{ item.detail.note }}</p>
       <div class="yueji-detail-links">{% for action in item.detail.links %}{{ link(action) }}{% endfor %}</div>
     </div>

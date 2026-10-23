@@ -505,12 +505,20 @@ content:
               - name: galleryLabel
                 label: 图片组说明
                 type: string
-          - name: body
-            label: 正文
-            type: rich-text
-            options:
-              format: markdown
-              media: assets
+              - name: sections
+                label: 分点内容（小标题＋正文）
+                type: object
+                list:
+                  collapsible:
+                    collapsed: false
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    label: 小标题
+                    type: string
+                  - name: body
+                    label: 正文内容
+                    type: text
       - name: miaoxueyuan
         label: 喵学园
         type: file

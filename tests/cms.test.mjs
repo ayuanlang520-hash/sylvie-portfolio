@@ -70,6 +70,21 @@ test('content saves automatically publish only after checks, and history commits
   assert.ok(restore.jobs.restore.steps.some(step => step.run?.includes('publish.yml/dispatches')));
 });
 
+test('Yueji edits separate headings and paragraphs and renders one group per section', async () => {
+  const editor = entries(config.content).find(entry => entry.name === 'yueji');
+  const detail = editor.fields.find(field => field.name === 'detail');
+  const sections = detail.fields.find(field => field.name === 'sections');
+  assert.ok(sections, 'Yueji needs separate section fields instead of one rich-text body');
+  assert.deepEqual(sections.fields.map(field => field.name), ['title', 'body']);
+  assert.ok(sections.list);
+  assert.ok(!editor.fields.some(field => field.name === 'body'), 'Do not expose competing copies of the same text');
+  const source = await readFile(editor.path, 'utf8');
+  const metadata = yaml.load(source.match(/^---\r?\n([\s\S]+?)\r?\n---/)[1]);
+  const html = await readFile('_site/index.html', 'utf8');
+  assert.equal((html.match(/class="yueji-section"/g) || []).length, metadata.detail.sections.length);
+  for (const section of metadata.detail.sections) assert.ok(html.includes(`<h4>${section.title}</h4>`));
+});
+
 test('high-resolution manual pages provide a direct original image link', async () => {
   const html = await readFile('_site/beichen/manual/index.html', 'utf8');
   assert.ok(html.includes('beichen-original-image'));
