@@ -52,7 +52,7 @@
 .planet-reflection > p { color: var(--folio-muted); font-size: 16px; line-height: 1.8; margin: 0 0 16px; }
 .planet-reflection dl { margin: 0; }
 .planet-reflection dl > div { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 16px; margin-top: 10px; font-size: 16px; line-height: 1.75; }
-.planet-reflection dt { color: var(--folio-ink); }
+.planet-reflection dt { color: var(--folio-ink); font-weight: 700; }
 .planet-reflection dd { color: var(--folio-muted); margin: 0; }
 .playback-message { font-size: 15px; color: var(--folio-muted); }
 @media (max-width: 1023px) {
@@ -130,7 +130,7 @@
 .miaoxueyuan-detail-content { padding: 4px 0 48px; }
 .miaoxueyuan-lead { max-width: 850px; margin: 0 0 28px; font-size: 18px; line-height: 1.85; }
 .miaoxueyuan-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 56px; }
-.miaoxueyuan-facts h4 { font-size: 17px; margin: 0 0 8px; }
+.miaoxueyuan-facts h4 { font-size: 17px; font-weight: 700; margin: 0 0 8px; }
 .miaoxueyuan-facts p { font-size: 16px; line-height: 1.8; margin: 0; color: #465249; }
 .miaoxueyuan-limit { margin: 28px 0 0; padding-top: 20px; border-top: 1px solid #d7dcd2; color: #59675d; font-size: 14px; line-height: 1.8; }
 .miaoxueyuan-gallery { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, .55fr); gap: 20px; align-items: start; margin-top: 28px; }
@@ -162,7 +162,7 @@
 .prompt-forest-detail-content { padding: 4px 0 48px; }
 .prompt-forest-lead { max-width: 850px; margin: 0 0 28px; font-size: 18px; line-height: 1.85; }
 .prompt-forest-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 56px; }
-.prompt-forest-facts h4 { font-size: 17px; margin: 0 0 8px; }
+.prompt-forest-facts h4 { font-size: 17px; font-weight: 700; margin: 0 0 8px; }
 .prompt-forest-facts p { font-size: 16px; line-height: 1.8; margin: 0; color: #465249; }
 .prompt-forest-validation { margin: 28px 0 0; padding-top: 20px; border-top: 1px solid #d7dcd2; color: #59675d; font-size: 14px; line-height: 1.8; }
 .prompt-forest-gallery { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, .55fr); gap: 20px; align-items: start; margin-top: 28px; }

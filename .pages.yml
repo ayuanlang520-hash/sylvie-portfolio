@@ -368,22 +368,19 @@ content:
                 label: 简介
                 type: text
               - name: items
-                label: 条目
+                label: 分点内容（小标题＋正文）
                 type: object
-                list: true
+                list:
+                  collapsible:
+                    collapsed: false
+                    summary: '{title}'
                 fields:
                   - name: title
-                    label: 标题
+                    label: 小标题
                     type: string
                   - name: description
-                    label: 介绍
+                    label: 正文内容
                     type: text
-          - name: body
-            label: 正文
-            type: rich-text
-            options:
-              format: markdown
-              media: assets
       - name: yueji
         label: 阅迹
         type: file
@@ -640,12 +637,20 @@ content:
               - name: galleryLabel
                 label: 图片组说明
                 type: string
-          - name: body
-            label: 正文
-            type: rich-text
-            options:
-              format: markdown
-              media: assets
+              - name: sections
+                label: 分点内容（小标题＋正文）
+                type: object
+                list:
+                  collapsible:
+                    collapsed: false
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    label: 小标题
+                    type: string
+                  - name: body
+                    label: 正文内容
+                    type: text
       - name: prompt-forest
         label: Prompt Forest · 提示词收藏
         type: file
@@ -752,12 +757,20 @@ content:
               - name: galleryLabel
                 label: 图片组说明
                 type: string
-          - name: body
-            label: 正文
-            type: rich-text
-            options:
-              format: markdown
-              media: assets
+              - name: sections
+                label: 分点内容（小标题＋正文）
+                type: object
+                list:
+                  collapsible:
+                    collapsed: false
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    label: 小标题
+                    type: string
+                  - name: body
+                    label: 正文内容
+                    type: text
   - name: beichen
     label: 北辰学习经历
     type: group

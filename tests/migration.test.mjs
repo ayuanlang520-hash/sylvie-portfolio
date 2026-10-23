@@ -110,25 +110,27 @@ test('editing an isolated data and Markdown copy updates the page without execut
   assert.equal(hash(await readFile('src/_data/profile.json')), originalProfile, 'Test must leave actual content untouched');
 });
 
-test('Yueji sections can be renamed or removed, and historical Markdown still renders', async t => {
+test('project sections can be renamed or removed, and historical Markdown still renders', async t => {
   const directory = await fixture(t);
-  const file = path.join(directory, 'src/content/projects/yueji.md');
-  await updateProject(file, data => {
+  const ids = ['yueji', 'miaoxueyuan', 'prompt-forest'];
+  for (const id of ids) await updateProject(path.join(directory, `src/content/projects/${id}.md`), data => {
     data.detail.sections = [{ title: '<自定义小标题>', body: '只保留这一点的内容。' }];
   });
   buildFixture(directory);
   let document = parse(await readFile(path.join(directory, 'output/index.html'), 'utf8'));
-  let detail = all(document, node => attr(node, 'id') === 'yueji-detail')[0];
-  const headings = all(detail, node => node.tagName === 'h4');
-  assert.deepEqual(headings.map(text), ['<自定义小标题>']);
-  assert.ok(text(detail).includes('只保留这一点的内容。'));
-  assert.ok(!text(detail).includes('现在做到哪一步'));
-  await updateProject(file, data => { delete data.detail.sections; }, '\n\n#### 历史标题\n\n历史正文。\n');
+  for (const id of ids) {
+    const detail = all(document, node => attr(node, 'id') === `${id}-detail`)[0];
+    assert.deepEqual(all(detail, node => node.tagName === 'h4').map(text), ['<自定义小标题>']);
+    assert.ok(text(detail).includes('只保留这一点的内容。'));
+  }
+  for (const id of ids) await updateProject(path.join(directory, `src/content/projects/${id}.md`), data => { delete data.detail.sections; }, '\n\n#### 历史标题\n\n历史正文。\n');
   buildFixture(directory);
   document = parse(await readFile(path.join(directory, 'output/index.html'), 'utf8'));
-  detail = all(document, node => attr(node, 'id') === 'yueji-detail')[0];
-  assert.deepEqual(all(detail, node => node.tagName === 'h4').map(text), ['历史标题']);
-  assert.ok(text(detail).includes('历史正文。'));
+  for (const id of ids) {
+    const detail = all(document, node => attr(node, 'id') === `${id}-detail`)[0];
+    assert.deepEqual(all(detail, node => node.tagName === 'h4').map(text), ['历史标题']);
+    assert.ok(text(detail).includes('历史正文。'));
+  }
 });
 
 test('contacts without links render as text while valid contacts remain clickable', async t => {

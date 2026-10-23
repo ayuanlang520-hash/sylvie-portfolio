@@ -29,6 +29,14 @@
 </article>
 {% endmacro %}
 
+{% macro processSections(project) %}
+{% if project.data.detail.sections is defined %}
+{% for section in project.data.detail.sections %}<div class="{{ project.data.id }}-section">{% if section.title %}<h4>{{ section.title }}</h4>{% endif %}{{ section.body | markdownContent | safe }}</div>{% endfor %}
+{% else %}
+{{ project.templateContent | detailSections | safe }}
+{% endif %}
+{% endmacro %}
+
 {% macro detail(project) %}
 {% set item = project.data %}
 <details class="{{ item.id }}-detail" id="{{ item.id }}-detail">
@@ -36,18 +44,14 @@
   <div class="{{ item.id }}-detail-content">
   {% if item.id == 'yueji' %}
     <div class="yueji-detail-text">
-      {% if item.detail.sections is defined %}
-      {% for section in item.detail.sections %}<div class="yueji-section">{% if section.title %}<h4>{{ section.title }}</h4>{% endif %}{{ section.body | markdownContent | safe }}</div>{% endfor %}
-      {% else %}
-      {{ project.templateContent | detailSections | safe }}
-      {% endif %}
+      {{ processSections(project) }}
       <p class="yueji-detail-note">{{ item.detail.note }}</p>
       <div class="yueji-detail-links">{% for action in item.detail.links %}{{ link(action) }}{% endfor %}</div>
     </div>
     {{ image(item.detail.images[0], 'yueji-detail-image') }}
   {% else %}
     <p class="{{ item.id }}-lead">{{ item.detail.lead }}</p>
-    <div class="{{ item.id }}-facts">{{ project.templateContent | detailSections | safe }}</div>
+    <div class="{{ item.id }}-facts">{{ processSections(project) }}</div>
     {% if item.detail.limitation %}<p class="{{ item.id }}-limit">{{ item.detail.limitation }}</p>{% endif %}
     {% if item.detail.validation %}<p class="{{ item.id }}-validation">{{ item.detail.validation }}</p>{% endif %}
     <div class="{{ item.id }}-gallery" aria-label="{{ item.detail.galleryLabel }}">{% for figure in item.detail.images %}{{ image(figure) }}{% endfor %}</div>

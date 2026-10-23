@@ -4,6 +4,7 @@ import { readFile, readdir, cp, mkdir, mkdtemp, writeFile, rm } from 'node:fs/pr
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import yaml from 'js-yaml';
+import { parse } from 'parse5';
 
 const root = process.cwd();
 const config = yaml.load(await readFile('.pages.yml', 'utf8'));
@@ -70,19 +71,31 @@ test('content saves automatically publish only after checks, and history commits
   assert.ok(restore.jobs.restore.steps.some(step => step.run?.includes('publish.yml/dispatches')));
 });
 
-test('Yueji edits separate headings and paragraphs and renders one group per section', async () => {
-  const editor = entries(config.content).find(entry => entry.name === 'yueji');
-  const detail = editor.fields.find(field => field.name === 'detail');
-  const sections = detail.fields.find(field => field.name === 'sections');
-  assert.ok(sections, 'Yueji needs separate section fields instead of one rich-text body');
-  assert.deepEqual(sections.fields.map(field => field.name), ['title', 'body']);
-  assert.ok(sections.list);
-  assert.ok(!editor.fields.some(field => field.name === 'body'), 'Do not expose competing copies of the same text');
-  const source = await readFile(editor.path, 'utf8');
-  const metadata = yaml.load(source.match(/^---\r?\n([\s\S]+?)\r?\n---/)[1]);
-  const html = await readFile('_site/index.html', 'utf8');
-  assert.equal((html.match(/class="yueji-section"/g) || []).length, metadata.detail.sections.length);
-  for (const section of metadata.detail.sections) assert.ok(html.includes(`<h4>${section.title}</h4>`));
+test('existing project processes expose separate section fields and preserve long-form editors', async () => {
+  const editors = entries(config.content);
+  const document = parse(await readFile('_site/index.html', 'utf8'));
+  const attr = (node, key) => node.attrs?.find(item => item.name === key)?.value;
+  const all = (node, predicate) => [...(predicate(node) ? [node] : []), ...(node.childNodes ?? []).flatMap(child => all(child, predicate))];
+  const text = node => node.nodeName === '#text' ? node.value : (node.childNodes ?? []).map(text).join('');
+  for (const id of ['yueji', 'miaoxueyuan', 'prompt-forest']) {
+    const editor = editors.find(entry => entry.name === id);
+    const detail = editor.fields.find(field => field.name === 'detail');
+    const sections = detail.fields.find(field => field.name === 'sections');
+    assert.deepEqual(sections.fields.map(field => field.name), ['title', 'body']);
+    assert.ok(sections.list);
+    assert.ok(!editor.fields.some(field => field.name === 'body'), 'Do not expose competing copies of the same text');
+    const source = await readFile(editor.path, 'utf8');
+    const metadata = yaml.load(source.match(/^---\r?\n([\s\S]+?)\r?\n---/)[1]);
+    const content = all(document, node => attr(node, 'id') === `${id}-detail`)[0];
+    assert.equal(all(content, node => attr(node, 'class') === `${id}-section`).length, metadata.detail.sections.length);
+    assert.deepEqual(all(content, node => node.tagName === 'h4').map(text), metadata.detail.sections.map(section => section.title).filter(Boolean));
+  }
+  const featured = editors.find(entry => entry.name === 'inspiration-planet');
+  const items = featured.fields.find(field => field.name === 'reflection').fields.find(field => field.name === 'items');
+  assert.deepEqual(items.fields.map(field => field.label), ['小标题', '正文内容']);
+  for (const id of ['story', 'beichen-reflection']) {
+    assert.equal(editors.find(entry => entry.name === id).fields.find(field => field.name === 'body').type, 'rich-text');
+  }
 });
 
 test('high-resolution manual pages provide a direct original image link', async () => {
